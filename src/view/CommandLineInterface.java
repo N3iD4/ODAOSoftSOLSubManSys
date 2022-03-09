@@ -47,6 +47,7 @@ public class CommandLineInterface {
                     break;
                 case 5:
                     keepRunning = false;
+                    System.out.println("Goodbye");
                     break;
             }
         }
@@ -73,6 +74,27 @@ public class CommandLineInterface {
 
 
     private static void process_addSubscriber() throws IOException {
+        // declare variables for required data
+        String forename;
+        String surname;
+        int imsi;
+        int subscriptionKey;
+        // ...
+
+        // fill variables with input (of the right data type, validation will happen in subscriber-constructor)
+        forename = askAndGetString("Forename: ");
+        surname = askAndGetString("Surname: ");
+        imsi = askAndGetInt("IMSI: ");
+
+        // let controller try to create new subscriber-object
+        //debug:
+        try {
+
+            letUserChooseMenuItem("The following user has been added: " + forename + " " + surname + " " + imsi, new String[] {"Continue"});
+        } catch (IllegalArgumentException e) {
+
+            letUserChooseMenuItem("The values provided by you weren't valid for the creation of a new subscriber. Nothing has been changed, you will be transfered back to the main menu now.", new String[] {"Continue"});
+        }
 
     }
 
@@ -159,6 +181,38 @@ public class CommandLineInterface {
         System.out.flush();
     }
 
+
+    private static String askAndGetString(String message) throws IOException {
+        System.out.print(message);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String userInputString = br.readLine();
+
+        return userInputString;
+    }
+
+    private static int askAndGetInt(String message) throws IOException {
+        int userInputInt = -1;
+        boolean validInputEntered = false;
+        while (!validInputEntered) {
+            validInputEntered = true;
+
+            System.out.print(message);
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            String userInputString = br.readLine();
+
+            try {
+                userInputInt = Integer.parseInt(userInputString);
+            } catch (Exception e) {
+                validInputEntered = false;
+            }
+
+            if (!validInputEntered) {
+                System.out.println("Sorry, you should enter a number, please try again");
+            }
+        }
+        return userInputInt;
+
+    }
 
 
 
