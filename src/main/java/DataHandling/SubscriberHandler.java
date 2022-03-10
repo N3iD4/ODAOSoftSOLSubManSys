@@ -62,7 +62,7 @@ public class SubscriberHandler {
     }
 
     //gives index of given sub related to IMSI, otherwise -1
-    private static int getIndexWithIMSI(Subscriber sub) throws IllegalArgumentException{
+    public static int getIndexWithIMSI(Subscriber sub) throws IllegalArgumentException{
         try {
             return getIndexWithIMSI(sub.getIMSI());
         } catch (IllegalArgumentException e) {
@@ -70,13 +70,28 @@ public class SubscriberHandler {
         }
     }
 
-    private static int getIndexWithIMSI(String IMSI) throws IllegalArgumentException{
+    public static int getIndexWithIMSI(String IMSI) throws IllegalArgumentException{
         Object[] tempar =  subscribers.toArray();
         for ( int i =0; i<tempar.length;i++) {
             if(((Subscriber)tempar[i]).getIMSI().equals(IMSI))
                 return i;
         }
         throw new IllegalArgumentException("User not Found related to IMSI=" + IMSI);
+    }
+
+    public static Subscriber getSubscriberById(int id) throws IllegalArgumentException {
+      if(checkID(id))
+          return subscribers.get(id);
+      throw new IllegalArgumentException("Subscriber don't found");
+    }
+
+    public static boolean checkID(int id) {
+        Object[] tempar =  subscribers.toArray();
+        for ( int i =0; i<tempar.length;i++) {
+            if(((Subscriber)tempar[i]).getId() == id)
+                return true;
+        }
+        return false;
     }
 
     public static void main(String args[]) {
