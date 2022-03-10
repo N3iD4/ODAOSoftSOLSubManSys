@@ -3,17 +3,19 @@ package models;
 
 public class Terminal {
 
-    String name;
-    String supportedRANTechnologies;
-    boolean active;
+    private int id;
+    private String name;
+    //private String supportedRANTechnologies;
+    private boolean supports4G;
+    private boolean active;
 
-    public Terminal(){
+    public Terminal() {
 
     }
 
-    public Terminal(String name, String supportedRANTechnologies) {
+    public Terminal(String name, boolean supports4G) {
         this.name = name;
-        this.supportedRANTechnologies = supportedRANTechnologies;
+        this.supports4G = supports4G;
     }
 
     public String getName() {
@@ -24,12 +26,32 @@ public class Terminal {
         this.name = name;
     }
 
-    public String getSupportedRANTechnologies() {
-        return supportedRANTechnologies;
+    public boolean getSupportedsupports4G() {
+        return supports4G;
     }
 
-    public void setSupportedRANTechnologies(String supportedRANTechnologies) {
-        this.supportedRANTechnologies = supportedRANTechnologies;
+    public void setsupports4G(boolean supports4G) {
+        this.supports4G = supports4G;
     }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
 }
 

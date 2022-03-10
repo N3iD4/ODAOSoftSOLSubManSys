@@ -22,12 +22,12 @@ public class SessionFunctionality {
         // Ask for userId
         int userId = CommandLineInterface.askAndGetInt("Which user should open a session?");
         // Check if valid userId
-        boolean isValidId = true; // = Persistence.UserManagement.isValidId(userId);
+        boolean isValidId = true; // SubscriberHandler.  = Persistence.UserManagement.isValidId(userId);
         if (!isValidId) {
             CommandLineInterface.waitForUserToContinue("The id you entered didn't match a user account. No session has been created and you will be brought back to the main menu.");
             return;
         }
-        Subscriber subscriber = new Subscriber( 0, "Vorname", "Nachname", "0", "0", "0","0", new Terminal(), new Subscription(), new ArrayList<>()); // = DataHandling.getUser();
+        Subscriber subscriber = new Subscriber( 0, "Vorname", "Nachname", "0", "0", "0","0", 0, 0, new ArrayList<>()); // = DataHandling.getUser();
 
 
         // Ask for service type

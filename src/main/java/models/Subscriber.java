@@ -4,26 +4,42 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Subscriber {
+    private int id;
+    private String forename;
+    private String surname;
+    private String IMSI;
+    private int terminalId;
+    private int subscriptionId;
+    private ArrayList<ChargeDTO> charges;
+    private int freeMinutesLeft;
+    private int dataVolumeLeft;
 
-    int id;
-    String forename;
-    String surname;
-    String IMSI;
-    String MCC;
-    String MNC;
-    String MSIN;
-    Terminal terminalType;
-    Subscription subscriptionType;
+    // Currently not used:
+    private String MCC;
+    private String MNC;
+    private String MSIN;
 
-    ArrayList<ChargeDTO> charges;
-    int freeMinutesLeft;
-    int dataVolumeLeft;
+    public int getTerminalId() {
+        return terminalId;
+    }
 
-    public Subscriber(){
+    public void setTerminalId(int terminalId) {
+        this.terminalId = terminalId;
+    }
+
+    public int getSubscriptionId() {
+        return subscriptionId;
+    }
+
+    public void setSubscriptionId(int subscriptionId) {
+        this.subscriptionId = subscriptionId;
+    }
+
+    public Subscriber() {
 
     }
 
-    public Subscriber(Subscriber subscriber){
+    public Subscriber(Subscriber subscriber) {
         setId(subscriber.id);
         setForename(subscriber.forename);
         setSurname(subscriber.surname);
@@ -31,12 +47,26 @@ public class Subscriber {
         setMCC(subscriber.MCC);
         setMNC(subscriber.MNC);
         setMSIN(subscriber.MSIN);
-        setTerminalType(subscriber.terminalType);
-        setSubscriptionType(subscriber.subscriptionType);
+        setTerminalId(subscriber.terminalId);
+        setSubscriptionId(subscriber.subscriptionId);
         setCharges(subscriber.charges);
     }
 
-    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, Terminal terminalType, Subscription subscriptionType, ArrayList<ChargeDTO> charges) {
+
+
+    public Subscriber(int id, String forename, String surname, String IMSI, int terminalId, int subscriptionId) {
+        setId(id);
+        setForename(forename);
+        setSurname(surname);
+        setIMSI(IMSI);
+        setTerminalId(terminalId);
+        setSubscriptionId(subscriptionId);
+        setCharges(charges);
+    }
+
+
+    // Constructor with MCC, MNC, MSIN
+    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, int terminalId, int subscriptionId, ArrayList<ChargeDTO> charges) {
         setId(id);
         setForename(forename);
         setSurname(surname);
@@ -44,28 +74,31 @@ public class Subscriber {
         setMCC(MCC);
         setMNC(MNC);
         setMSIN(MSIN);
-        setTerminalType(terminalType);
-        setSubscriptionType(subscriptionType);
+        setTerminalId(terminalId);
+        setSubscriptionId(subscriptionId);
         setCharges(charges);
     }
 
 
-    public Subscription getSubscription(){
+    public Subscription getSubscription() {
         return null;
+        //return SubscriptionHandler.getSubscriptionById(this.subscriptionId);
     }
 
-    public void addCharge(ChargeDTO charge){
 
+    public Subscription getTerminal() {
+        return null;
+        //return TerminalHandler.getTerminalById(this.terminalId);
     }
 
     public BigDecimal getMaxThroughput(){
-        return BigDecimal.valueOf(0.0);
+        return      BigDecimal.valueOf(0.0);
     }
 
 
     public String toString(){
         String ret;
-        ret = "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.terminalType + " | Subscription: " + this.subscriptionType;
+        ret = "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.getTerminal() + " | Subscription: " + this.getSubscription();
         return ret;
     }
 
@@ -209,27 +242,7 @@ public class Subscriber {
 
 
 
-    public Terminal getTerminalType() {
-        return terminalType;
-    }
 
-    public void setTerminalType(Terminal terminalType) {
-        if((terminalType.getClass() != Terminal.class)){
-            throw new RuntimeException("Not a Terminal!");
-        }
-        this.terminalType = terminalType;
-    }
-
-    public Subscription getSubscriptionType() {
-        return subscriptionType;
-    }
-
-    public void setSubscriptionType(Subscription subscriptionType) {
-        if((subscriptionType.getClass() != Subscription.class)){
-            throw new RuntimeException("Not a Terminal!");
-        }
-        this.subscriptionType = subscriptionType;
-    }
 
     public ArrayList<ChargeDTO> getCharges() {
         return charges;
@@ -243,6 +256,12 @@ public class Subscriber {
         }
         this.charges = charges;
     }
+
+    public void addCharge(ChargeDTO charge){
+        this.charges.add(charge);
+    }
+
+
 
     public int getFreeMinutesLeft() {
         return freeMinutesLeft;
@@ -259,4 +278,5 @@ public class Subscriber {
     public void setDataVolumeLeft(int dataVolumeLeft) {
         this.dataVolumeLeft = dataVolumeLeft;
     }
+    
 }

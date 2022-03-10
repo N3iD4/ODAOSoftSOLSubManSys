@@ -81,12 +81,12 @@ public class SubscriberHandler {
 
     public static void main(String args[]) {
 
-        Subscriber sub1 = new Subscriber(0,"hans","mueller","4554554559","455","45","4554554559",new PearAphone4s(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
+        //Subscriber sub1 = new Subscriber(0,"hans","mueller","4554554559","455","45","4554554559",new PearAphone4s(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
         // Subscriber sub2 = new Subscriber("franz","krtoffel","HK104",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
         // Subscriber sub3 = new Subscriber("franziska","karotte","HK105",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
 
         SubscriberHandler sh = new SubscriberHandler();
-        sh.addSubscriber(sub1);
+        //sh.addSubscriber(sub1);
         //sh.addSubscriber(sub2);
         //sh.addSubscriber(sub3);
 
