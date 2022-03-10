@@ -20,17 +20,19 @@ public class CommandLineInterface {
 
 
 
+    public static void waitForUserToContinue(String message) {
+        letUserChooseMenuItem(message, new String[] {"Continue"});
+    }
 
 
-
-    public static int letUserChooseMenuItem(String[] menuItemTexts) throws IOException {
+    public static int letUserChooseMenuItem(String[] menuItemTexts) {
         return letUserChooseMenuItem("", menuItemTexts);
     }
-    public static int letUserChooseMenuItem(String textBeforeItems, String[] menuItemTexts) throws IOException {
+    public static int letUserChooseMenuItem(String textBeforeItems, String[] menuItemTexts) {
         return letUserChooseMenuItem(textBeforeItems, menuItemTexts, "");
     }
 
-    public static int letUserChooseMenuItem(String textBeforeItems, String[] menuItemTexts, String textAfterItems) throws IOException {
+    public static int letUserChooseMenuItem(String textBeforeItems, String[] menuItemTexts, String textAfterItems) {
         if (menuItemTexts.length == 0) {
             throw new IllegalArgumentException("there must be at least 1 menu item");
         }
@@ -48,9 +50,9 @@ public class CommandLineInterface {
             System.out.print(textAfterItems);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            String userInputString = br.readLine();
-
             try {
+                String userInputString = br.readLine();
+
                 userInputInt = Integer.parseInt(userInputString);
             } catch (Exception e) {
                 validInputEntered = false;
@@ -78,25 +80,31 @@ public class CommandLineInterface {
     }
 
 
-    public static String askAndGetString(String message) throws IOException {
+    public static String askAndGetString(String message) {
         System.out.print(message);
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String userInputString = br.readLine();
+        String userInputString = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            userInputString = br.readLine();
+        } catch(Exception e) {
+
+        }
 
         return userInputString;
     }
 
-    public static int askAndGetInt(String message) throws IOException {
+    public static int askAndGetInt(String message) {
         int userInputInt = -1;
         boolean validInputEntered = false;
         while (!validInputEntered) {
             validInputEntered = true;
 
             System.out.print(message);
-            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-            String userInputString = br.readLine();
-
             try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                String userInputString = br.readLine();
+
                 userInputInt = Integer.parseInt(userInputString);
             } catch (Exception e) {
                 validInputEntered = false;
