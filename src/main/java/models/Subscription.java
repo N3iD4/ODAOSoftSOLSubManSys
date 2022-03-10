@@ -11,6 +11,7 @@ public class Subscription {
     int minutesIncluded;
     BigDecimal pricePerExtraMinute;
     int dataVolumeInMB;
+    boolean active;
 
     private Subscription(){};
 

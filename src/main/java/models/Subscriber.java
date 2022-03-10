@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Subscriber {
 
+    int id;
     String forename;
     String surname;
     String IMSI;
@@ -24,13 +25,20 @@ public class Subscriber {
     public Subscriber(String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
         setForename(forename);
         setSurname(surname);
-        setIMSI(IMSI);
+        //setIMSI(IMSI);
         setTerminalType(terminalType);
         setSubscriptionType(subscriptionOldType);
         setCharges(charges);
     }
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     //Überprüfen auf richtigkeit
     public String getForename() {
@@ -81,7 +89,7 @@ public class Subscriber {
         this.surname = surname;
     }
 
-    public String getIMSI() {
+   /* public String getIMSI() {
         return IMSI;
     }
 
@@ -93,7 +101,7 @@ public class Subscriber {
         }
         this.IMSI = IMSI;
     }
-
+*/
 
 
 
@@ -102,6 +110,18 @@ public class Subscriber {
     }
 
     public void setMCC(String MCC) {
+        if(MCC == null){
+            throw new IllegalArgumentException("Value is Null!");
+        }
+        char[] arr = MCC.toCharArray();
+        if(arr.length != 3){
+            throw new IllegalArgumentException("Not 3 digits long!");
+        }
+        for(int i=0; i<arr.length; i++){
+            if(arr[i] < 47 || arr[i] > 57){
+                throw new IllegalArgumentException("Not a Number!");
+            }
+        }
         this.MCC = MCC;
     }
 
@@ -110,6 +130,18 @@ public class Subscriber {
     }
 
     public void setMNC(String MNC) {
+        if(MNC == null){
+            throw new IllegalArgumentException("Value is Null!");
+        }
+        char[] arr = MNC.toCharArray();
+        if(arr.length != 2){
+            throw new IllegalArgumentException("Not 3 digits long!");
+        }
+        for(int i=0; i<arr.length; i++){
+            if(arr[i] < 47 || arr[i] > 57){
+                throw new IllegalArgumentException("Not a Number!");
+            }
+        }
         this.MNC = MNC;
     }
 
@@ -118,6 +150,18 @@ public class Subscriber {
     }
 
     public void setMSIN(String MSIN) {
+        if(MSIN == null){
+            throw new IllegalArgumentException("Value is Null!");
+        }
+        char[] arr = MSIN.toCharArray();
+        if(arr.length != 10){
+            throw new IllegalArgumentException("Not 3 digits long!");
+        }
+        for(int i=0; i<arr.length; i++){
+            if(arr[i] < 47 || arr[i] > 57){
+                throw new IllegalArgumentException("Not a Number!");
+            }
+        }
         this.MSIN = MSIN;
     }
 

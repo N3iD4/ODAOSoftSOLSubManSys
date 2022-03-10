@@ -5,6 +5,7 @@ public class Terminal {
 
     String name;
     String supportedRANTechnologies;
+    boolean active;
 
     public Terminal(){
 
