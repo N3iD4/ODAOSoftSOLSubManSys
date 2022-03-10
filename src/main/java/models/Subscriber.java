@@ -20,6 +20,16 @@ public class Subscriber {
 
     }
 
+    public Subscriber(Subscriber subscriber){
+        setId(subscriber.id);
+        setForename(subscriber.forename);
+        setSurname(subscriber.surname);
+        //setIMSI(IMSI);
+        setTerminalType(subscriber.terminalType);
+        setSubscriptionType(subscriber.subscriptionOldType);
+        setCharges(subscriber.charges);
+    }
+
     public Subscriber(int id, String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
         setId(id);
         setForename(forename);
