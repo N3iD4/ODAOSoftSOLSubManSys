@@ -136,6 +136,11 @@ public class Subscriber {
         if(arr.length != 10){
             throw new IllegalArgumentException("Number not 10 digits long!");
         }
+        for(int i=0; i<arr.length; i++){
+            if(arr[i] < 47 || arr[i] > 57){
+                throw new IllegalArgumentException("Not a Number!");
+            }
+        }
         this.IMSI = IMSI;
     }
 
@@ -253,17 +258,5 @@ public class Subscriber {
 
     public void setDataVolumeLeft(int dataVolumeLeft) {
         this.dataVolumeLeft = dataVolumeLeft;
-    }
-
-    public static void main(String[] args){
-        Subscriber subscriber = new Subscriber();
-        subscriber.setForename("aaa");
-        //PhairPhone l = new PhairPhone();
-        //subscriber.setTerminalType(l);
-        //GreenMobilL sub = new GreenMobilL();
-        //subscriber.setSubscriptionType(sub);
-        System.out.println(subscriber.getForename());
-        System.out.println(subscriber.getTerminalType());
-        System.out.println(subscriber.getSubscriptionType());
     }
 }

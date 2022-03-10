@@ -26,7 +26,7 @@ public class UserInteraction {
                     menu_manageSubscribers();
                     break;
                 case 1:
-                    process_createSession();
+                    SessionFunctionality.process_createSession();
                     break;
                 case 2:
                     process_createInvoice();
@@ -105,35 +105,11 @@ public class UserInteraction {
 
 
 
-    private static String[] serviceNames = new String[] { "Voice Call", "Browsing and social networking", "App download", "Adaptive HD video" };
-    private static String[] serviceTypes = new String[] { "voice", "data", "data", "data" };
-    private static int[] serviceRateInMbPerS = new int[] { 0, 2, 10, 100 };
-
-
-    private static void process_createSession() {
-        // Needed: user, service, time
-
-        // Ask for userId
-        int userId = CommandLineInterface.askAndGetInt("Which user should open a session?");
-        // Check if valid userId
-        boolean isValidId = true; // = Persistence.UserManagement.isValidId(userId);
-        if (!isValidId) {
-            CommandLineInterface.waitForUserToContinue("The id you entered didn't match a user account. No session has been created and you will be brought back to the main menu.");
-            return;
-        }
-
-        // Ask for service type
-        int serviceType = CommandLineInterface.letUserChooseMenuItem("Which service should be started?", serviceNames);
-
-        // Ask for time
-        int timeInS = CommandLineInterface.askAndGetInt("How long should the session be?");
 
 
 
 
 
-
-    }
 
 
     private static void process_createInvoice() {
