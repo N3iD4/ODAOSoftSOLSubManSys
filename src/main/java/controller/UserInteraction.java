@@ -167,6 +167,7 @@ public class UserInteraction {
         // exit immediately if there are no subscribers
         if (  SubscriberHandler.getSubscribers().size() == 0  ) {
             CommandLineInterface.waitForUserToContinue("There are no saved subscribers at the moment. You will be brought back to the main menu.");
+            return;
         }
 
         // ask user for subscirber-id
@@ -205,7 +206,6 @@ public class UserInteraction {
 
     }
 
-
     private static void process_editSubscription() {
 
     }
@@ -215,7 +215,7 @@ public class UserInteraction {
     private static void process_addTerminal() {
 
     }
-
+    
     private static void process_removeTerminal() {
 
     }
@@ -237,22 +237,82 @@ public class UserInteraction {
 
 
     private static void process_createInvoice() {
+        // exit immediately if there are no subscribers
+        if (  SubscriberHandler.getSubscribers().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscribers at the moment. You will be brought back to the main menu.");
+            return;
+        }
+
+        int subscriberId = askSubscriberForValidUserOrMinus1("Please enter the id the subscriber for whom to create an invoice, or -1 to go back to the main menu:\n");
+        if (subscriberId == -1) {
+            return;
+        } else {
+            String invoiceMsg = SubscriberHandler.getSubscriberById(subscriberId).createInvoice();
+            System.out.print( invoiceMsg );
+            CommandLineInterface.waitForUserToContinue("");
+        }
 
     }
 
     private static void process_listSubscribers() {
+        // exit immediately if there are no subscribers
+        if (  SubscriberHandler.getSubscribers().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscribers at the moment. You will be brought back to the main menu.");
+            return;
+        }
 
+        CommandLineInterface.waitForUserToContinue( SubscriberHandler.getSubscribers().toString() );
     }
 
     private static void process_listSubscriptions() {
+        // exit immediately if there are no subscribers
+        if (  SubscriptionHandler.getSubscriptions().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscriptions at the moment. You will be brought back to the main menu.");
+            return;
+        }
 
+        CommandLineInterface.waitForUserToContinue( SubscriptionHandler.getSubscriptions().toString() );
     }
 
     private static void process_listTerminals() {
+        // exit immediately if there are no subscribers
+        if (  TerminalHandler.getTerminals().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved terminals at the moment. You will be brought back to the main menu.");
+            return;
+        }
 
+        CommandLineInterface.waitForUserToContinue( TerminalHandler.getTerminals().toString() );
     }
 
     private static void process_listCharges() {
+        // exit immediately if there are no subscribers
+        if (  SubscriberHandler.getSubscribers().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscribers at the moment. You will be brought back to the main menu.");
+            return;
+        }
+
+        int subscriberId = askSubscriberForValidUserOrMinus1("Please enter the id the subscriber for whom to list the charges of the current invoicing period, or -1 to go back to the main menu:\n");
+        if (subscriberId == -1) {
+            return;
+        }
+
+        CommandLineInterface.waitForUserToContinue( SubscriberHandler.getSubscriberById(subscriberId).getCharges().toString() );
+
+    }
+
+
+
+    private static int askSubscriberForValidUserOrMinus1(String msg) {
+        while (true) {
+            int response = CommandLineInterface.askAndGetInt(msg);
+            if ( response == -1) {
+                return -1;
+            }
+            if ( SubscriberHandler.checkID(response) ) {
+                return response;
+            }
+            System.out.println("Your response was neither a valid user id nor -1. Please try again.");
+        }
 
     }
 
