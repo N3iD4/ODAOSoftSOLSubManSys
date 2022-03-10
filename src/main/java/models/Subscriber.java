@@ -47,6 +47,12 @@ public class Subscriber {
     }
 
 
+    public String toString(){
+        String ret;
+        ret = "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.terminalType + " | Subscription: " + this.subscriptionOldType;
+        return ret;
+    }
+
     public int getId() {
         return id;
     }
@@ -111,8 +117,8 @@ public class Subscriber {
     public void setIMSI(String IMSI) {
         char[] arr = IMSI.toCharArray();
         //ÜBERPRÜFEN WIE OBEN OB NUR ZAHLEN
-        if(arr.length != 9){
-            throw new IllegalArgumentException("Number too long!");
+        if(arr.length != 10){
+            throw new IllegalArgumentException("Number not 10 digits long!");
         }
         this.IMSI = IMSI;
     }
@@ -150,7 +156,7 @@ public class Subscriber {
         }
         char[] arr = MNC.toCharArray();
         if(arr.length != 2){
-            throw new IllegalArgumentException("Not 3 digits long!");
+            throw new IllegalArgumentException("Not 2 digits long!");
         }
         for(int i=0; i<arr.length; i++){
             if(arr[i] < 47 || arr[i] > 57){
@@ -170,7 +176,7 @@ public class Subscriber {
         }
         char[] arr = MSIN.toCharArray();
         if(arr.length != 10){
-            throw new IllegalArgumentException("Not 3 digits long!");
+            throw new IllegalArgumentException("Not 10 digits long!");
         }
         for(int i=0; i<arr.length; i++){
             if(arr[i] < 47 || arr[i] > 57){
@@ -187,7 +193,7 @@ public class Subscriber {
     }
 
     public void setTerminalType(Terminal terminalType) {
-        if(!(terminalType.getClass() != Terminal.class)){
+        if((terminalType.getClass() != Terminal.class)){
             throw new RuntimeException("Not a Terminal!");
         }
         this.terminalType = terminalType;
@@ -198,7 +204,7 @@ public class Subscriber {
     }
 
     public void setSubscriptionType(SubscriptionOld subscriptionOldType) {
-        if(!(subscriptionOldType.getClass() != SubscriptionOld.class)){
+        if((subscriptionOldType.getClass() != SubscriptionOld.class)){
             throw new RuntimeException("Not a Terminal!");
         }
         this.subscriptionOldType = subscriptionOldType;
@@ -210,7 +216,7 @@ public class Subscriber {
 
    public void setCharges(ArrayList<ChargeDTO> charges) {
         for(int i=0; i<charges.size(); i++){
-            if(!(charges.get(i).getClass() != ChargeDTO.class)){
+            if((charges.get(i).getClass() != ChargeDTO.class)){
                 throw new RuntimeException("Not a Terminal!");
             }
         }
@@ -219,10 +225,13 @@ public class Subscriber {
 
     public static void main(String[] args){
         Subscriber subscriber = new Subscriber();
-        subscriber.setForename("");
+        subscriber.setForename("aaa");
         PhairPhone l = new PhairPhone();
         subscriber.setTerminalType(l);
+        GreenMobilL sub = new GreenMobilL();
+        subscriber.setSubscriptionType(sub);
         System.out.println(subscriber.getForename());
         System.out.println(subscriber.getTerminalType());
+        System.out.println(subscriber.getSubscriptionType());
     }
 }
