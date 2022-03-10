@@ -1,6 +1,9 @@
 package DataHandling;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class JsonSave {
     String filename="DataSafe";
     String filepath="src/main/java/DataHandling/Data";
 
-   //private static ObjectMapper mapper = new ObjectMapper(); // create once, reuse
+   private static ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
 
     public JsonSave () {
@@ -32,7 +35,7 @@ public class JsonSave {
     public void saveData(Object obj) {
 
         try {
-           //mapper.writeValue(new File(getCompleteFilename()), obj);
+           mapper.writeValue(new File(getCompleteFilename()), obj);
         } catch (Exception e) {
             System.out.println("Problem mit Schreiben/Serialisieren der Datei");
             System.out.println(e);
