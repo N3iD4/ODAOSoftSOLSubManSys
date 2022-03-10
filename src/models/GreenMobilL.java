@@ -2,7 +2,7 @@ package models;
 
 import java.math.BigDecimal;
 
-public class GreenMobilL extends Subscription {
+public class GreenMobilL extends SubscriptionOld {
 
 
 

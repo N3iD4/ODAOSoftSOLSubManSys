@@ -1,51 +1,90 @@
 package models;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 
 public class Subscription {
-    static ArrayList<Subscription> subscriptions;
+    static int[] keys;
+    static Subscription[] subscriptions;
+
     String name;
-    BigDecimal fee;
+    BigDecimal basicFee;
     int minutesIncluded;
     BigDecimal pricePerExtraMinute;
     int dataVolumeInMB;
 
-    public Subscription(){}
+    private Subscription(){};
 
-    public Subscription(String name, BigDecimal fee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
+    private Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
         this.name = name;
-        this.fee = fee;
+        this.basicFee = basicFee;
         this.minutesIncluded = minutesIncluded;
         this.pricePerExtraMinute = pricePerExtraMinute;
         this.dataVolumeInMB = dataVolumeInMB;
     }
 
 
-    //static int[] getSubscriptionKeys(){
-        //vielleicht mit enum
-   // }
+
+    static int[] getSubscriptionKeys(){
+        int[] ret= {};
+        return ret;
+    }
+
+    static Subscription getSubscriptionByKey(int key){
+        Subscription ret = new Subscription();
+        return ret;
+    }
+
+    private void initializeSubscriptions(){
+
+    }
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public static int[] getKeys() {
+        return keys;
+    }
+
+    public static void setKeys(int[] keys) {
+        Subscription.keys = keys;
+    }
+
+    public static Subscription[] getSubscriptions() {
+        return subscriptions;
+    }
+
+    public static void setSubscriptions(Subscription[] subscriptions) {
+        Subscription.subscriptions = subscriptions;
+    }
 
     public String getName() {
         return name;
     }
 
-
-    //getter public setter private
     public void setName(String name) {
         this.name = name;
     }
 
-    public BigDecimal getFee() {
-        return fee;
+    public BigDecimal getBasicFee() {
+        return basicFee;
     }
 
-    public void setFee(BigDecimal fee) {
-        this.fee = fee;
+    public void setBasicFee(BigDecimal basicFee) {
+        this.basicFee = basicFee;
     }
 
     public int getMinutesIncluded() {

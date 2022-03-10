@@ -13,7 +13,7 @@ public class Subscriber {
 
     String MSIN;
     Terminal terminalType;
-    Subscription subscriptionType;
+    SubscriptionOld subscriptionOldType;
     ArrayList<ChargeDTO> charges;
 
 
@@ -21,12 +21,12 @@ public class Subscriber {
 
     }
 
-    public Subscriber(String forename, String surname, String IMSI, Terminal terminalType, Subscription subscriptionType, ArrayList<ChargeDTO> charges) {
+    public Subscriber(String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
         setForename(forename);
         setSurname(surname);
         setIMSI(IMSI);
         setTerminalType(terminalType);
-        setSubscriptionType(subscriptionType);
+        setSubscriptionType(subscriptionOldType);
         setCharges(charges);
     }
 
@@ -134,15 +134,15 @@ public class Subscriber {
         this.terminalType = terminalType;
     }
 
-    public Subscription getSubscriptionType() {
-        return subscriptionType;
+    public SubscriptionOld getSubscriptionType() {
+        return subscriptionOldType;
     }
 
-    public void setSubscriptionType(Subscription subscriptionType) {
-        if(!(subscriptionType.getClass() != Subscription.class)){
+    public void setSubscriptionType(SubscriptionOld subscriptionOldType) {
+        if(!(subscriptionOldType.getClass() != SubscriptionOld.class)){
             throw new RuntimeException("Not a Terminal!");
         }
-        this.subscriptionType = subscriptionType;
+        this.subscriptionOldType = subscriptionOldType;
     }
 
     public ArrayList<ChargeDTO> getCharges() {
