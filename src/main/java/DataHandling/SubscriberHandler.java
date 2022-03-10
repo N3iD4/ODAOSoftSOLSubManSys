@@ -7,25 +7,24 @@ import java.util.List;
 
 public class SubscriberHandler {
 
-    private List<Subscriber> subscribers;
+    public static List<Subscriber> subscribers = new ArrayList<Subscriber>();
 
-    public SubscriberHandler() {
-        this.subscribers = new ArrayList<Subscriber>();
+    private SubscriberHandler() {
     }
 
-    public void addSubscriber(Subscriber sub) throws IllegalArgumentException{
+    public static void addSubscriber(Subscriber sub) throws IllegalArgumentException{
         try {
             getIndexWithIMSI(sub);
             throw new IllegalArgumentException("Subscriber with IMSI=" + sub.getIMSI() + " is already stored");
         } catch (IllegalArgumentException e) {}
         if(subscribers.size()!=0)
-            sub.setId(this.subscribers.get(subscribers.size()-1).getId()+1);
+            sub.setId(SubscriberHandler.subscribers.get(subscribers.size()-1).getId()+1);
         else
             sub.setId(0);
         subscribers.add(sub);
     }
 
-    public void deleteSub (Subscriber sub) throws IllegalArgumentException {
+    public static void deleteSub (Subscriber sub) throws IllegalArgumentException {
         int index = -1;
         try {
             index = getIndexWithIMSI(sub);
@@ -33,11 +32,11 @@ public class SubscriberHandler {
              throw e;
         }
         if(index!=-1)
-            this.subscribers.remove(index);
+            SubscriberHandler.subscribers.remove(index);
     }
 
     // removes and adds Subscriber related to IMSI
-    public void editSub(Subscriber sub) {
+    public static void editSub(Subscriber sub) {
         try {
             deleteSub(sub);
             addSubscriber(sub);
@@ -47,24 +46,23 @@ public class SubscriberHandler {
     }
 
     // gives Subscriber Obj realted to IMSI
-    public Subscriber getSubscriberByIMSI(String IMSI) throws IllegalArgumentException{
-        return this.subscribers.get(getIndexWithIMSI(IMSI));
+    public static Subscriber getSubscriberByIMSI(String IMSI) throws IllegalArgumentException{
+        return SubscriberHandler.subscribers.get(getIndexWithIMSI(IMSI));
     }
 
     //gives List of all stored Subscribers
-    public List<Subscriber> getSubscribers() {
-        return this.subscribers;
+    public static List<Subscriber> getSubscribers() {
+        return SubscriberHandler.subscribers;
     }
 
-    @Override
-    public String toString() {
+    public static String ToString() {
         return "SubscriberHandler{" +
                 "subscribers=" + subscribers +
                 '}';
     }
 
     //gives index of given sub related to IMSI, otherwise -1
-    private int getIndexWithIMSI(Subscriber sub) throws IllegalArgumentException{
+    private static int getIndexWithIMSI(Subscriber sub) throws IllegalArgumentException{
         try {
             return getIndexWithIMSI(sub.getIMSI());
         } catch (IllegalArgumentException e) {
@@ -72,10 +70,10 @@ public class SubscriberHandler {
         }
     }
 
-    private int getIndexWithIMSI(String IMSI) throws IllegalArgumentException{
-        Subscriber[] tempar = (Subscriber[]) subscribers.toArray();
+    private static int getIndexWithIMSI(String IMSI) throws IllegalArgumentException{
+        Object[] tempar =  subscribers.toArray();
         for ( int i =0; i<tempar.length;i++) {
-            if(tempar[i].getIMSI().equals(IMSI))
+            if(((Subscriber)tempar[i]).getIMSI().equals(IMSI))
                 return i;
         }
         throw new IllegalArgumentException("User not Found related to IMSI=" + IMSI);
