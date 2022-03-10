@@ -20,7 +20,7 @@ public class JsonSave {
     }
 
     String filename="DataSafe";
-    String filepath="src/main/java/DataHandling";
+    String filepath="src/main/java/Data/DataHandling";
 
    //private static ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
