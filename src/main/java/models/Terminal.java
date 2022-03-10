@@ -3,11 +3,12 @@ package models;
 
 public class Terminal {
 
-    String name;
-    String supportedRANTechnologies;
-    boolean active;
+    private int id;
+    private String name;
+    private String supportedRANTechnologies;
+    private boolean active;
 
-    public Terminal(){
+    public Terminal() {
 
     }
 
@@ -31,5 +32,25 @@ public class Terminal {
     public void setSupportedRANTechnologies(String supportedRANTechnologies) {
         this.supportedRANTechnologies = supportedRANTechnologies;
     }
+
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    public boolean getActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+
 }
 

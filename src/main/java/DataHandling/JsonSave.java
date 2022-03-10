@@ -14,8 +14,8 @@ public class JsonSave {
     public static void main(String args[]) {
         System.out.println("Hello World");
 
-        Subscriber sub1 = new Subscriber(0,"hans","mueller","4554554559","455","45","4554554559",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-        SubscriberHandler.addSubscriber(sub1);
+        //Subscriber sub1 = new Subscriber(0,"hans","mueller","4554554559","455","45","4554554559",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
+        //SubscriberHandler.addSubscriber(sub1);
 
         JsonSave js = new JsonSave();
         js.saveDataSubscribers();
