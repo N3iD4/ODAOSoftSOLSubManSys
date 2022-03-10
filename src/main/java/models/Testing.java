@@ -24,11 +24,5 @@ public class Testing {
         //subscriber.setIMSI("123456789s"); //no
         //subscriber.setIMSI("123ahsjdhf"); //no
 
-        subscriber.setMCC("123"); //yes
-        //subscriber.setMCC("12"); //no
-        //subscriber.setMCC("1234"); //no
-        //subscriber.setMCC("12f"); //no
-        //subscriber.setMCC("12sdsf"); //no
-
     }
 }

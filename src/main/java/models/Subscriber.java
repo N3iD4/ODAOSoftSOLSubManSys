@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
@@ -12,12 +14,7 @@ public class Subscriber {
     private int subscriptionId;
     private ArrayList<ChargeDTO> charges;
     private int freeMinutesLeft;
-    private int dataVolumeLeft;
-
-    // Currently not used:
-    private String MCC;
-    private String MNC;
-    private String MSIN;
+    private int dataVolumeLeft; //TODO getter setter fehlen
 
     public int getTerminalId() {
         return terminalId;
@@ -44,9 +41,6 @@ public class Subscriber {
         setForename(subscriber.forename);
         setSurname(subscriber.surname);
         setIMSI(subscriber.IMSI);
-        setMCC(subscriber.MCC);
-        setMNC(subscriber.MNC);
-        setMSIN(subscriber.MSIN);
         setTerminalId(subscriber.terminalId);
         setSubscriptionId(subscriber.subscriptionId);
         setCharges(subscriber.charges);
@@ -61,9 +55,8 @@ public class Subscriber {
         setIMSI(IMSI);
         setTerminalId(terminalId);
         setSubscriptionId(subscriptionId);
-        setCharges(charges);
+        this.charges = new ArrayList<>();//TODO nciht richtig
     }
-
 
     // Constructor with MCC, MNC, MSIN
     public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, int terminalId, int subscriptionId, ArrayList<ChargeDTO> charges) {
@@ -71,26 +64,24 @@ public class Subscriber {
         setForename(forename);
         setSurname(surname);
         setIMSI(IMSI);
-        setMCC(MCC);
-        setMNC(MNC);
-        setMSIN(MSIN);
         setTerminalId(terminalId);
         setSubscriptionId(subscriptionId);
         setCharges(charges);
     }
 
-
+    @JsonIgnore
     public Subscription getSubscription() {
         return null;
         //return SubscriptionHandler.getSubscriptionById(this.subscriptionId);
     }
 
-
+    @JsonIgnore
     public Subscription getTerminal() {
         return null;
         //return TerminalHandler.getTerminalById(this.terminalId);
     }
 
+    @JsonIgnore
     public BigDecimal getMaxThroughput(){
         return      BigDecimal.valueOf(0.0);
     }
@@ -176,73 +167,6 @@ public class Subscriber {
         }
         this.IMSI = IMSI;
     }
-
-
-
-
-    public String getMCC() {
-        return MCC;
-    }
-
-    public void setMCC(String MCC) {
-        if(MCC == null){
-            throw new IllegalArgumentException("Value is Null!");
-        }
-        char[] arr = MCC.toCharArray();
-        if(arr.length != 3){
-            throw new IllegalArgumentException("Not 3 digits long!");
-        }
-        for(int i=0; i<arr.length; i++){
-            if(arr[i] < 47 || arr[i] > 57){
-                throw new IllegalArgumentException("Not a Number!");
-            }
-        }
-        this.MCC = MCC;
-    }
-
-    public String getMNC() {
-        return MNC;
-    }
-
-    public void setMNC(String MNC) {
-        if(MNC == null){
-            throw new IllegalArgumentException("Value is Null!");
-        }
-        char[] arr = MNC.toCharArray();
-        if(arr.length != 2){
-            throw new IllegalArgumentException("Not 2 digits long!");
-        }
-        for(int i=0; i<arr.length; i++){
-            if(arr[i] < 47 || arr[i] > 57){
-                throw new IllegalArgumentException("Not a Number!");
-            }
-        }
-        this.MNC = MNC;
-    }
-
-    public String getMSIN() {
-        return MSIN;
-    }
-
-    public void setMSIN(String MSIN) {
-        if(MSIN == null){
-            throw new IllegalArgumentException("Value is Null!");
-        }
-        char[] arr = MSIN.toCharArray();
-        if(arr.length != 10){
-            throw new IllegalArgumentException("Not 10 digits long!");
-        }
-        for(int i=0; i<arr.length; i++){
-            if(arr[i] < 47 || arr[i] > 57){
-                throw new IllegalArgumentException("Not a Number!");
-            }
-        }
-        this.MSIN = MSIN;
-    }
-
-
-
-
 
     public ArrayList<ChargeDTO> getCharges() {
         return charges;
