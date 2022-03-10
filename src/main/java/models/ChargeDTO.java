@@ -1,9 +1,12 @@
 package models;
 
 public class ChargeDTO {
-    int totalVolumeOfUsedData;
-    int totalVoiceMinutes;
-    double appliedCharges;
+    private int totalVolumeOfUsedData;
+    private int totalVoiceMinutes;
+    private double appliedCharges;
 
+    public ChargeDTO(int totalVolumeOfUsedData, int totalVoiceMinutes, double appliedCharges) {
+
+    }
 
 }
