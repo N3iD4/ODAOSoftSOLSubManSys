@@ -1,11 +1,8 @@
 package controller;
 
-import java.io.IOException;
-
-
-
 import view.CommandLineInterface;
 
+import java.io.IOException;
 
 public class UserInteraction {
 
@@ -80,7 +77,7 @@ public class UserInteraction {
         surname = CommandLineInterface.askAndGetString("Surname: ");
         imsi = CommandLineInterface.askAndGetInt("IMSI: ");
 
-        // let controller try to create new subscriber-object
+        // let main.java.controller try to create new subscriber-object
         try {
             //
             // Subscriber newSubscriber = new Subscriber(  ...  );
