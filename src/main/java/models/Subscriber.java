@@ -24,7 +24,7 @@ public class Subscriber {
         setId(subscriber.id);
         setForename(subscriber.forename);
         setSurname(subscriber.surname);
-        //setIMSI(IMSI);
+        setIMSI(IMSI);
         setTerminalType(subscriber.terminalType);
         setSubscriptionType(subscriber.subscriptionOldType);
         setCharges(subscriber.charges);
@@ -34,7 +34,7 @@ public class Subscriber {
         setId(id);
         setForename(forename);
         setSurname(surname);
-        //setIMSI(IMSI);
+        setIMSI(IMSI);
         setTerminalType(terminalType);
         setSubscriptionType(subscriptionOldType);
         setCharges(charges);
@@ -98,7 +98,7 @@ public class Subscriber {
         this.surname = surname;
     }
 
-   /* public String getIMSI() {
+    public String getIMSI() {
         return IMSI;
     }
 
@@ -110,7 +110,7 @@ public class Subscriber {
         }
         this.IMSI = IMSI;
     }
-*/
+
 
 
 
