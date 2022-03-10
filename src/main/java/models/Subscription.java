@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 public class Subscription {
 
-
+    int id;
     String name;
     BigDecimal basicFee;
     int minutesIncluded;
