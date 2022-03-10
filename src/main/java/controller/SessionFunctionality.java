@@ -50,15 +50,19 @@ public class SessionFunctionality {
         BigDecimal costs = BigDecimal.valueOf(0);
 
         // Calculate nr of free minutes after call and costs for minutes bigger than the free minutes
-        int freeMinutesAfterCall = subscriber.getFreeMinutesLeft() - Math.ceil(timeInS / 60);
+        int freeMinutesBeforeCall = subscriber.getFreeMinutesLeft();
+        int freeMinutesAfterCall = freeMinutesBeforeCall - Math.ceil(timeInS / 60);
+        int usedPaidMinutes = 0;
         if (freeMinutesAfterCall < 0) {
             costs = costs.add(  BigDecimal.valueOf(  -freeMinutesAfterCall  ).multiply(  BigDecimal.valueOf(  subscriber.getSubscription().getPricePerExtraMinute()  )  )  );
+            usedPaidMinutes = -freeMinutes;
             freeMinutesAfterCall = 0;
         }
+        int usedFreeMinutes = freeMinutesBeforeCall - freeMinutesAfterCall;
 
         // Create and add charge to subcsriber
-        ChargeDTO newCharge = new ChargeDTO();
-        subscriber.addCharge( newCharge );
+        ChargeDTO newCharge = new ChargeDTO(0, usedFreeMinutes, usedPaidMinutes, cost);
+        subscriber.addCharge(newCharge);
 
         subscriber.setFreeMinutesLeft(freeMinutesAfterCall);
 
