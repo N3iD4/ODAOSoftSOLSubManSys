@@ -33,9 +33,7 @@ public class Subscriber {
         this.subscriptionId = subscriptionId;
     }
 
-    public Subscriber() {
-
-    }
+    private Subscriber() {}
 
     public Subscriber(Subscriber subscriber) {
         setId(subscriber.id);
