@@ -15,12 +15,13 @@ public class Subscription {
 
     public Subscription(){}
 
-    public Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
+    public Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB, boolean isActive) {
         this.name = name;
         this.basicFee = basicFee;
         this.minutesIncluded = minutesIncluded;
         this.pricePerExtraMinute = pricePerExtraMinute;
         this.dataVolumeInMB = dataVolumeInMB;
+        this.isActive = isActive;
     }
 
     public int getId() { return id; }

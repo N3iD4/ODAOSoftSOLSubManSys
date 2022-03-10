@@ -2,6 +2,7 @@ package view;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 
 public class CommandLineInterface {
 
@@ -79,6 +80,21 @@ public class CommandLineInterface {
         return userInputString;
     }
 
+    public static int askAndGetNonNegativeInt(String message) {
+        int userInputInt = -1;
+        boolean validInputEntered = false;
+        while (!validInputEntered) {
+            validInputEntered = true;
+
+            userInputInt = askAndGetInt(message);
+
+            if (userInputInt >= 0) {
+                System.out.println("Sorry, you should enter a number, please try again");
+            }
+        }
+        return userInputInt;
+    }
+
     public static int askAndGetInt(String message) {
         int userInputInt = -1;
         boolean validInputEntered = false;
@@ -100,7 +116,6 @@ public class CommandLineInterface {
             }
         }
         return userInputInt;
-
     }
 
     public static String askAndGetImsi(String message) {
@@ -129,6 +144,39 @@ public class CommandLineInterface {
         return userInput;
 
     }
+
+
+    public static BigDecimal askAndGetPositiveCurrencyValue(String message) {
+        BigDecimal userInputInt = null;
+        boolean validInputEntered = false;
+        while (!validInputEntered) {
+            validInputEntered = true;
+
+            System.out.print(message);
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                String userInputString = br.readLine();
+
+                userInputInt = new BigDecimal(userInputString);
+
+                if (userInputString.split(".").length > 1 && userInputString.split(".")[1].length() > 2) {
+                    throw new IllegalArgumentException("Only a maximum of 2 decimal placed is allowed");
+                }
+
+                if (  userInputInt.compareTo(  new BigDecimal(0)  )  < 0  ) {
+                    throw new IllegalArgumentException("Please enter a positive number or 0 !");
+                }
+            } catch (Exception e) {
+                validInputEntered = false;
+            }
+
+            if (!validInputEntered) {
+                System.out.println("Sorry, you should enter a number, please try again");
+            }
+        }
+        return userInputInt;
+    }
+
 
 
 }

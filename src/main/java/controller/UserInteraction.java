@@ -9,6 +9,7 @@ import models.Terminal;
 import view.CommandLineInterface;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class UserInteraction {
@@ -198,6 +199,25 @@ public class UserInteraction {
 
 
     private static void process_addSubscription() {
+        // declare variables for required data
+        String name;
+        BigDecimal basicFee;
+        int minutesIncluded;
+        BigDecimal pricePerExtraMinute;
+        int dataVolumeInMB;
+        boolean isActive;
+
+        Subscription newSubscription = getSubscriptionObjectFromUser();
+
+        // let controller try to create new subscriber-object
+        try {
+            SubscriptionHandler.addSubscription(newSubscription);
+            SubscriberHandler.save();
+
+            CommandLineInterface.waitForUserToContinue("The new subscription has been added.");
+        } catch (IllegalArgumentException e) {
+            CommandLineInterface.waitForUserToContinue("The values provided by you weren't valid for the creation of a new subscription. Nothing has been changed, you will be transfered back to the main menu now.");
+        }
 
     }
 
@@ -211,11 +231,51 @@ public class UserInteraction {
     }
 
 
+    private static Subscription getSubscriptionObjectFromUser() {
+        // declare variables for required data
+        String name = "undefined";
+        BigDecimal basicFee = new BigDecimal(0);
+        int minutesIncluded = 0;
+        BigDecimal pricePerExtraMinute = new BigDecimal("1");
+        int dataVolumeInMB = 0;
+        boolean isActive = false;
+
+        Subscription resSubscription = new Subscription();
+
+        // name
+        boolean validResponse = false;
+        while (!validResponse) {
+            String userResponse = CommandLineInterface.askAndGetString("Subscription name: ");
+            validResponse = SubscriptionHandler.getSubscriptions().stream().anyMatch( e -> e.getName().equals(userResponse) );
+            if (!validResponse) {
+                System.out.println("A subscription with this name already exists. Please choose another name for clarity.");
+            } else {
+                resSubscription.setName(name);
+            }
+        }
+
+        resSubscription.setBasicFee( CommandLineInterface.askAndGetPositiveCurrencyValue("Basic fee: ") );
+
+        resSubscription.setMinutesIncluded( CommandLineInterface.askAndGetNonNegativeInt("Minutes included: ") );
+
+        resSubscription.setPricePerExtraMinute( CommandLineInterface.askAndGetPositiveCurrencyValue("Price per extra minute: ") );
+
+        resSubscription.setDataVolumeInMB( CommandLineInterface.askAndGetNonNegativeInt("Data volume in Mb: ") );
+
+        int userAnswer = CommandLineInterface.letUserChooseMenuItem(new String[] {"make subscription active", "make subscription inactive"} );
+        resSubscription.setIsActive( userAnswer == 0 ? true : false );
+
+        return resSubscription;
+    }
+
+
+
+
 
     private static void process_addTerminal() {
 
     }
-    
+
     private static void process_removeTerminal() {
 
     }

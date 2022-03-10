@@ -95,6 +95,15 @@ public class SubscriberHandler {
     }
 
 
+    public boolean hasAnySubscriberSubscriptionWithId(int subscriptionId) {
+        return subscribers.stream().anyMatch( el -> el.getSubscriptionId() == subscriptionId );
+    }
+
+
+    public boolean hasAnySubscriberTerminalWithId(int terminalId) {
+        return subscribers.stream().anyMatch( el -> el.getTerminalId() == terminalId );
+    }
+
 
     public static void main(String args[]) {
 
