@@ -1,5 +1,7 @@
 package controller;
 
+import DataHandling.SubscriberHandler;
+import models.Subscriber;
 import view.CommandLineInterface;
 
 import java.io.IOException;
@@ -19,25 +21,37 @@ public class UserInteraction {
 
             int response = CommandLineInterface.letUserChooseMenuItem(
                     "Hello, please let me know how I can help you:\n",
-                    new String[] { "manage subscribers", "create session", "create invoice", "list subscribers", "list charges", "exit" });
+                    new String[] { "manage subscribers", "manage subscriptions", "manage terminals", "create session", "create invoice", "list subscribers", "list subscriptions", "list terminals", "list charges", "exit" });
 
             switch (response) {
                 case 0:
                     menu_manageSubscribers();
                     break;
                 case 1:
-                    SessionFunctionality.process_createSession();
+                    menu_manageSubscriptions();
                     break;
                 case 2:
-                    process_createInvoice();
+                    menu_manageTerminals();
                     break;
                 case 3:
-                    process_listSubscribers();
+                    SessionFunctionality.process_createSession();
                     break;
                 case 4:
-                    process_listCharges();
+                    process_createInvoice();
                     break;
                 case 5:
+                    process_listSubscribers();
+                    break;
+                case 6:
+                    process_listSubscriptions();
+                    break;
+                case 7:
+                    process_listTerminals();
+                    break;
+                case 8:
+                    process_listCharges();
+                    break;
+                case 9:
                     keepRunning = false;
                     System.out.println("Goodbye");
                     break;
@@ -45,7 +59,7 @@ public class UserInteraction {
         }
     }
 
-    private static void menu_manageSubscribers() throws IOException {
+    private static void menu_manageSubscribers() {
         CommandLineInterface.clearScreen();
         int response = CommandLineInterface.letUserChooseMenuItem(
                 "You want to manage subscribers:\n",
@@ -63,6 +77,56 @@ public class UserInteraction {
                 break;
         }
     }
+
+
+    private static void menu_manageSubscriptions() {
+        CommandLineInterface.clearScreen();
+        int response = CommandLineInterface.letUserChooseMenuItem(
+                "You want to manage subscriptions:\n",
+                new String[] { "add subscription", "remove subscription", "edit subscriptions", "back to main menu" });
+
+        switch (response) {
+            case 0:
+                process_addSubscription();
+                break;
+            case 1:
+                process_removeSubscription();
+                break;
+            case 2:
+                process_editSubscription();
+                break;
+            case 3:
+                // do nothing so that it gets back to the higher level immediately
+                break;
+        }
+    }
+
+
+
+
+    private static void menu_manageTerminals() {
+        CommandLineInterface.clearScreen();
+        int response = CommandLineInterface.letUserChooseMenuItem(
+                "You want to manage terminals:\n",
+                new String[] { "add subscription", "remove subscription", "edit subscriptions", "back to main menu" });
+
+        switch (response) {
+            case 0:
+                process_addTerminal();
+                break;
+            case 1:
+                process_removeTerminal();
+                break;
+            case 2:
+                process_editTerminal();
+                break;
+            case 3:
+                // do nothing so that it gets back to the higher level immediately
+                break;
+        }
+    }
+
+
 
     private static void process_addSubscriber() {
         // declare variables for required data
@@ -93,7 +157,16 @@ public class UserInteraction {
 
     private static void process_removeSubscriber() {
         int userIdToRemove = CommandLineInterface.askAndGetInt("Please specify the user id to remove");
-        boolean success = true; // = Persistence.RemoveUser(userIdToRemove);
+
+        boolean success = true;
+        try {
+            //Subscriber subscriber = SubscriberHandler.getSubscriberById(userIdToRemove);
+            //SubscriberHandler.deleteSub(subscriber);
+        } catch (Exception e) {
+            success = false;
+        }
+
+
         if (success) {
             CommandLineInterface.waitForUserToContinue("The subscriber was removed.");
         } else {
@@ -110,6 +183,44 @@ public class UserInteraction {
 
 
 
+    private static void process_addSubscription() {
+
+    }
+
+    private static void process_removeSubscription() {
+
+
+    }
+
+
+    private static void process_editSubscription() {
+
+    }
+
+
+
+    private static void process_addTerminal() {
+
+    }
+
+    private static void process_removeTerminal() {
+
+    }
+
+    private static void process_editTerminal() {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     private static void process_createInvoice() {
@@ -117,6 +228,14 @@ public class UserInteraction {
     }
 
     private static void process_listSubscribers() {
+
+    }
+
+    private static void process_listSubscriptions() {
+
+    }
+
+    private static void process_listTerminals() {
 
     }
 

@@ -15,7 +15,7 @@ public class Testing {
         subscriber.setForename("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); //yes
         //subscriber.setForename("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); //no >30
 
-        subscriber.setTerminalType(new Terminal()); //yes
+        //subscriber.setTerminalType(new Terminal()); //yes
         //subscriber.setTerminalType(new Subscriber()); //no
 
         subscriber.setIMSI("1234567890"); //yes
