@@ -1,5 +1,6 @@
 package models;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class Subscriber {
@@ -12,9 +13,11 @@ public class Subscriber {
     String MNC;
     String MSIN;
     Terminal terminalType;
-    SubscriptionOld subscriptionOldType;
-    ArrayList<ChargeDTO> charges;
+    Subscription subscriptionType;
 
+    ArrayList<ChargeDTO> charges;
+    int freeMinutesLeft;
+    int dataVolumeLeft;
 
     public Subscriber(){
 
@@ -29,11 +32,11 @@ public class Subscriber {
         setMNC(subscriber.MNC);
         setMSIN(subscriber.MSIN);
         setTerminalType(subscriber.terminalType);
-        setSubscriptionType(subscriber.subscriptionOldType);
+        setSubscriptionType(subscriber.subscriptionType);
         setCharges(subscriber.charges);
     }
 
-    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
+    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, Terminal terminalType, Subscription subscriptionType, ArrayList<ChargeDTO> charges) {
         setId(id);
         setForename(forename);
         setSurname(surname);
@@ -42,14 +45,27 @@ public class Subscriber {
         setMNC(MNC);
         setMSIN(MSIN);
         setTerminalType(terminalType);
-        setSubscriptionType(subscriptionOldType);
+        setSubscriptionType(subscriptionType);
         setCharges(charges);
+    }
+
+
+    public Subscription getSubscription(){
+        return null;
+    }
+
+    public void addCharge(ChargeDTO charge){
+
+    }
+
+    public BigDecimal getMaxThroughput(){
+        return BigDecimal.valueOf(0.0);
     }
 
 
     public String toString(){
         String ret;
-        ret = "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.terminalType + " | Subscription: " + this.subscriptionOldType;
+        ret = "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.terminalType + " | Subscription: " + this.subscriptionType;
         return ret;
     }
 
@@ -199,15 +215,15 @@ public class Subscriber {
         this.terminalType = terminalType;
     }
 
-    public SubscriptionOld getSubscriptionType() {
-        return subscriptionOldType;
+    public Subscription getSubscriptionType() {
+        return subscriptionType;
     }
 
-    public void setSubscriptionType(SubscriptionOld subscriptionOldType) {
-        if((subscriptionOldType.getClass() != SubscriptionOld.class)){
+    public void setSubscriptionType(Subscription subscriptionType) {
+        if((subscriptionType.getClass() != Subscription.class)){
             throw new RuntimeException("Not a Terminal!");
         }
-        this.subscriptionOldType = subscriptionOldType;
+        this.subscriptionType = subscriptionType;
     }
 
     public ArrayList<ChargeDTO> getCharges() {
@@ -223,13 +239,29 @@ public class Subscriber {
         this.charges = charges;
     }
 
+    public int getFreeMinutesLeft() {
+        return freeMinutesLeft;
+    }
+
+    public void setFreeMinutesLeft(int freeMinutesLeft) {
+        this.freeMinutesLeft = freeMinutesLeft;
+    }
+
+    public int getDataVolumeLeft() {
+        return dataVolumeLeft;
+    }
+
+    public void setDataVolumeLeft(int dataVolumeLeft) {
+        this.dataVolumeLeft = dataVolumeLeft;
+    }
+
     public static void main(String[] args){
         Subscriber subscriber = new Subscriber();
         subscriber.setForename("aaa");
         PhairPhone l = new PhairPhone();
         subscriber.setTerminalType(l);
-        GreenMobilL sub = new GreenMobilL();
-        subscriber.setSubscriptionType(sub);
+        //GreenMobilL sub = new GreenMobilL();
+        //subscriber.setSubscriptionType(sub);
         System.out.println(subscriber.getForename());
         System.out.println(subscriber.getTerminalType());
         System.out.println(subscriber.getSubscriptionType());
