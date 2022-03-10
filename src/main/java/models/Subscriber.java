@@ -33,7 +33,7 @@ public class Subscriber {
         this.subscriptionId = subscriptionId;
     }
 
-    private Subscriber() {}
+    public Subscriber() {}
 
     public Subscriber(Subscriber subscriber) {
         setId(subscriber.id);
@@ -76,9 +76,7 @@ public class Subscriber {
 
 
     public String toString(){
-        String ret;
-        ret = "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.getTerminal() + " | Subscription: " + this.getSubscription();
-        return ret;
+        return "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.getTerminal() + " | Subscription: " + this.getSubscription();
     }
 
     public int getId() {

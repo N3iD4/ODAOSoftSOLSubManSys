@@ -2,12 +2,16 @@ package models;
 
 import DataHandling.JsonSave;
 import DataHandling.SubscriberHandler;
+import DataHandling.SubscriptionHandler;
+
+import java.math.BigDecimal;
 
 public class Testing {
 
     public static void main (String[] args){
 
-        TestSubscriberHandler();
+        //TestSubscriberHandler();
+        TestSubscriptionsHandler();
 
         /*Subscriber subscriber = new Subscriber();
         //subscriber.setForename("kgaz43o78"); // no
@@ -35,9 +39,13 @@ public class Testing {
 
 
     public static void TestSubscriberHandler() {
+        System.out.println("=============================SUBSCRIBERS============================");
+
         Subscriber sub1 = new Subscriber(0,"Hans","Mueller","2929292929",1,1);
         Subscriber sub2 = new Subscriber(0,"franz","meier","2929292429",1,1);
         Subscriber sub3 = new Subscriber(0,"hubert","schuller","2629292929",1,1);
+
+        String tmp ="SubscriberHandler{subscribers=[ID: 0 | Forename: Hans | Surname: Mueller | ISMI: 2929292929 | Terminaltype: null | Subscription: null, ID: 1 | Forename: franz | Surname: meier | ISMI: 2929292429 | Terminaltype: null | Subscription: null, ID: 2 | Forename: hubert | Surname: schuller | ISMI: 2629292929 | Terminaltype: null | Subscription: null]}";
 
         SubscriberHandler.addSubscriber(sub1);
         SubscriberHandler.addSubscriber(sub2);
@@ -45,7 +53,44 @@ public class Testing {
 
         JsonSave.saveDataSubscribers();
         JsonSave.laodDataSubscriber();
-        System.out.println(SubscriberHandler.ToString() + "\n" + SubscriberHandler.subscribers.size());
+        System.out.println(SubscriberHandler.ToString());
+        System.out.println("true==" + SubscriberHandler.ToString().equals(tmp));
+        System.out.println("3==" + SubscriberHandler.subscribers.size());
 
+        SubscriberHandler.deleteSub(sub2);
+        System.out.println("2==" + SubscriberHandler.subscribers.size());
+        SubscriberHandler.addSubscriber(sub2);
+        System.out.println("0==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub1)).getId());
+        System.out.println("3==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub2)).getId());
+
+        System.out.println("=========================================================================");
+    }
+
+    public static void TestSubscriptionsHandler() {
+        System.out.println("=============================SUBSCRIPTIONS============================");
+
+        Subscription sub1 = new Subscription("freeTarif",new BigDecimal("10.0"),3,new BigDecimal("83.0"),2);
+        Subscription sub2 = new Subscription("mainTarif",new BigDecimal("10.0"),3,new BigDecimal("887.0"),2);
+        Subscription sub3 = new Subscription("extend",new BigDecimal("11.0"),3,new BigDecimal("84.0"),2);
+
+        String tmp ="SubscriptionHandler{subscriptions=[id: 0| name: freeTarif| basicFee: 10.0| minutesIncluded: 3| pricePerExtraMinute: 83.0| dataVolumeInMB: 2| isActive: false, id: 1| name: mainTarif| basicFee: 10.0| minutesIncluded: 3| pricePerExtraMinute: 887.0| dataVolumeInMB: 2| isActive: false, id: 2| name: extend| basicFee: 11.0| minutesIncluded: 3| pricePerExtraMinute: 84.0| dataVolumeInMB: 2| isActive: false]}";
+
+        SubscriptionHandler.addSubscription(sub1);
+        SubscriptionHandler.addSubscription(sub2);
+        SubscriptionHandler.addSubscription(sub3);
+
+        JsonSave.saveDataSubscriptions();
+        JsonSave.laodDataSubscriptions();
+        System.out.println(SubscriptionHandler.ToString());
+        System.out.println("true==" + SubscriptionHandler.ToString().equals(tmp));
+        System.out.println("3==" + SubscriptionHandler.subscriptions.size());
+
+        SubscriptionHandler.deleteSub(sub2);
+        System.out.println("2==" + SubscriptionHandler.subscriptions.size());
+        SubscriptionHandler.addSubscription(sub2);
+        System.out.println("0==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub1)).getId());
+        System.out.println("3==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub2)).getId());
+
+        System.out.println("=========================================================================");
     }
 }

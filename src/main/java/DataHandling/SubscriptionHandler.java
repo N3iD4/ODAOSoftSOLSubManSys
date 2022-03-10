@@ -1,42 +1,41 @@
 package DataHandling;
 
 import models.Subscription;
-import models.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SubscriptionHandler {
 
-    public static List<Subscription> subscribers = new ArrayList<Subscription>();
+    public static List<Subscription> subscriptions = new ArrayList<Subscription>();
 
     private SubscriptionHandler() {
     }
 
     public static void addSubscription(Subscription sub) throws IllegalArgumentException{
         try {
-            getIndexWithIMSI(sub);
-            throw new IllegalArgumentException("Subscription with IMSI=" + sub.getIMSI() + " is already stored");
+            getIndexWithID(sub.getId());
+            throw new IllegalArgumentException("Subscription with Id=" + sub.getId() + " is already stored");
         } catch (IllegalArgumentException e) {}
-        if(subscribers.size()!=0)
-            sub.setId(SubscriptionHandler.subscribers.get(subscribers.size()-1).getId()+1);
+        if(subscriptions.size()!=0)
+            sub.setId(SubscriptionHandler.subscriptions.get(subscriptions.size()-1).getId()+1);
         else
             sub.setId(0);
-        subscribers.add(sub);
+        subscriptions.add(sub);
     }
 
     public static void deleteSub (Subscription sub) throws IllegalArgumentException {
         int index = -1;
         try {
-            index = getIndexWithIMSI(sub);
+            index = getIndexWithID(sub.getId());
         } catch (IllegalArgumentException e) {
              throw e;
         }
         if(index!=-1)
-            SubscriptionHandler.subscribers.remove(index);
+            SubscriptionHandler.subscriptions.remove(index);
     }
 
-    // removes and adds Subscription related to IMSI
+    // removes and adds Subscription related to ID
     public static void editSub(Subscription sub) {
         try {
             deleteSub(sub);
@@ -46,69 +45,46 @@ public class SubscriptionHandler {
         }
     }
 
-    // gives Subscription Obj realted to IMSI
-    public static Subscription getSubscriptionByIMSI(String IMSI) throws IllegalArgumentException{
-        return SubscriptionHandler.subscribers.get(getIndexWithIMSI(IMSI));
-    }
-
     //gives List of all stored Subscriptions
     public static List<Subscription> getSubscriptions() {
-        return SubscriptionHandler.subscribers;
+        return SubscriptionHandler.subscriptions;
     }
 
     public static String ToString() {
         return "SubscriptionHandler{" +
-                "subscribers=" + subscribers +
+                "subscriptions=" + subscriptions +
                 '}';
     }
-
-    //gives index of given sub related to IMSI, otherwise -1
-    public static int getIndexWithIMSI(Subscription sub) throws IllegalArgumentException{
+    public static int getIndexWithID(Subscription sub) throws IllegalArgumentException{
         try {
-            return getIndexWithIMSI(sub.getIMSI());
-        } catch (IllegalArgumentException e) {
+            return getIndexWithID(sub.getId());
+        } catch(IllegalArgumentException e) {
             throw e;
         }
-    }
 
-    public static int getIndexWithIMSI(String IMSI) throws IllegalArgumentException{
-        Object[] tempar =  subscribers.toArray();
+    }
+    public static int getIndexWithID(int id) throws IllegalArgumentException{
+        Object[] tempar =  subscriptions.toArray();
         for ( int i =0; i<tempar.length;i++) {
-            if(((Subscription)tempar[i]).getIMSI().equals(IMSI))
+            if(((Subscription)tempar[i]).getId() == id)
                 return i;
         }
-        throw new IllegalArgumentException("User not Found related to IMSI=" + IMSI);
+        throw new IllegalArgumentException("User not Found related to id=" + id);
     }
 
     public static Subscription getSubscriptionById(int id) throws IllegalArgumentException {
       if(checkID(id))
-          return subscribers.get(id);
+          return subscriptions.get(id);
       throw new IllegalArgumentException("Subscription don't found");
     }
 
     public static boolean checkID(int id) {
-        Object[] tempar =  subscribers.toArray();
+        Object[] tempar =  subscriptions.toArray();
         for ( int i =0; i<tempar.length;i++) {
             if(((Subscription)tempar[i]).getId() == id)
                 return true;
         }
         return false;
-    }
-
-
-
-    public static void main(String args[]) {
-
-        //Subscription sub1 = new Subscription(0,"hans","mueller","4554554559","455","45","4554554559",new PearAphone4s(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-        // Subscription sub2 = new Subscription("franz","krtoffel","HK104",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-        // Subscription sub3 = new Subscription("franziska","karotte","HK105",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-
-        SubscriptionHandler sh = new SubscriptionHandler();
-        //sh.addSubscription(sub1);
-        //sh.addSubscription(sub2);
-        //sh.addSubscription(sub3);
-
-        System.out.println(sh.toString());
     }
 
 }
