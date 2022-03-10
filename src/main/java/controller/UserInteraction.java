@@ -2,9 +2,11 @@ package controller;
 
 import DataHandling.SubscriberHandler;
 import models.Subscriber;
+import models.Subscription;
 import view.CommandLineInterface;
 
 import java.io.IOException;
+import java.util.List;
 
 public class UserInteraction {
 
@@ -132,20 +134,29 @@ public class UserInteraction {
         // declare variables for required data
         String forename;
         String surname;
-        int imsi;
-        int subscriptionKey;
-        // ...
+        String imsi;
+        int subscriptionId;
+        int terminalId;
 
         // fill variables with input (of the right data type, validation will happen in subscriber-constructor)
         forename = CommandLineInterface.askAndGetString("Forename: ");
         surname = CommandLineInterface.askAndGetString("Surname: ");
-        imsi = CommandLineInterface.askAndGetInt("IMSI: ");
+        imsi = CommandLineInterface.askAndGetImsi("IMSI: ");
+        // get subscription
+        List<Subscription> subscriptions = SubscriptionHandler.getSubscriptions();
+        int userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) subscriptions.stream().map( el -> el.getName() ).toArray() );
+        subscriptionId = subscriptions.get(userAnswer).getId();
+        // get terminal
+        List<Subscription> terminals = TerminalHandler.getTerminals();
+        userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) terminals.stream().map( el -> el.getName() ).toArray() );
+        terminalId = terminals.get(userAnswer).getId();
 
-        // let main.java.controller try to create new subscriber-object
+        // let controller try to create new subscriber-object
         try {
             //
-            // Subscriber newSubscriber = new Subscriber(  ...  );
-            // Persistence.addSubscriber(newSubscriber);
+            Subscriber newSubscriber = new Subscriber( -1, forename, surname, imsi, terminalId, subscriptionId );
+            SubscriberHandler.addSubscriber(newSubscriber);
+            SubscriberHandler.save();
 
             CommandLineInterface.letUserChooseMenuItem("The following user has been added: " + forename + " " + surname + " " + imsi, new String[] {"Continue"});
         } catch (IllegalArgumentException e) {
@@ -156,24 +167,24 @@ public class UserInteraction {
 
 
     private static void process_removeSubscriber() {
+        // ask user for subscirber-id
         int userIdToRemove = CommandLineInterface.askAndGetInt("Please specify the user id to remove");
 
+        // Try to remove subscriber with entered id
         boolean success = true;
         try {
-            //Subscriber subscriber = SubscriberHandler.getSubscriberById(userIdToRemove);
-            //SubscriberHandler.deleteSub(subscriber);
+            Subscriber subscriber = SubscriberHandler.getSubscriberById(userIdToRemove);
+            SubscriberHandler.deleteSub(subscriber);
         } catch (Exception e) {
             success = false;
         }
 
-
+        // display whether subscriber was removed
         if (success) {
             CommandLineInterface.waitForUserToContinue("The subscriber was removed.");
         } else {
             CommandLineInterface.waitForUserToContinue("A subscriber with the id specified by you could not be removed"); // IMPORTANT: No loop here, because if there are no subscribers yet the end-user will be stuck here because he can never seleect a valid user ! [Alternative one day: enter -1 for back to main menu]
         }
-
-
     }
 
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.function.ToDoubleBiFunction;
 
 public class Subscriber {
     private int id;
@@ -14,7 +15,7 @@ public class Subscriber {
     private int subscriptionId;
     private ArrayList<ChargeDTO> charges;
     private int freeMinutesLeft;
-    private int dataVolumeLeft; //TODO getter setter fehlen
+    private int dataVolumeLeft;
 
     public int getTerminalId() {
         return terminalId;
@@ -44,9 +45,9 @@ public class Subscriber {
         setTerminalId(subscriber.terminalId);
         setSubscriptionId(subscriber.subscriptionId);
         setCharges(subscriber.charges);
+        setFreeMinutesLeft(subscriber.freeMinutesLeft);
+        setDataVolumeLeft(dataVolumeLeft);
     }
-
-
 
     public Subscriber(int id, String forename, String surname, String IMSI, int terminalId, int subscriptionId) {
         setId(id);
@@ -55,18 +56,7 @@ public class Subscriber {
         setIMSI(IMSI);
         setTerminalId(terminalId);
         setSubscriptionId(subscriptionId);
-        this.charges = new ArrayList<>();//TODO nciht richtig
-    }
-
-    // Constructor with MCC, MNC, MSIN
-    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, int terminalId, int subscriptionId, ArrayList<ChargeDTO> charges) {
-        setId(id);
-        setForename(forename);
-        setSurname(surname);
-        setIMSI(IMSI);
-        setTerminalId(terminalId);
-        setSubscriptionId(subscriptionId);
-        setCharges(charges);
+        this.charges = new ArrayList<>();
     }
 
     @JsonIgnore
@@ -76,14 +66,14 @@ public class Subscriber {
     }
 
     @JsonIgnore
-    public Subscription getTerminal() {
+    public Terminal getTerminal() {
         return null;
         //return TerminalHandler.getTerminalById(this.terminalId);
     }
 
     @JsonIgnore
     public BigDecimal getMaxThroughput(){
-        return      BigDecimal.valueOf(0.0);
+        return getTerminal().getSupports4G() ? BigDecimal.valueOf(300) : BigDecimal.valueOf(20);
     }
 
 
@@ -201,6 +191,38 @@ public class Subscriber {
 
     public void setDataVolumeLeft(int dataVolumeLeft) {
         this.dataVolumeLeft = dataVolumeLeft;
+    }
+
+    // returns string for invoice and then resets minutesIncluded, dataVolumeLeft and charges
+    public String createInvoice() {
+        BigDecimal totalCharges = new BigDecimal(0);
+        int totalDataUsed = 0;
+        int totalFreeMinutesUsed = 0;
+        int totalPaidMinutesUsed = 0;
+        String resString = "======== ======== ======== ========\n=== New invoice for %s, %s\n";
+        resString += "=== Charges:\n";
+        for (ChargeDTO el : charges) {
+            resString += " - data used: " + el.getTotalVolumeOfUsedData() + "Mb, free minutes used: " + el.getTotalFreeVoiceMinutes() + "m, paid minutes used: " + el.getTotalPaidVoiceMinutes() + ", charged: " + el.getAppliedCharges() + "\n";
+            totalCharges = totalCharges.add(el.getAppliedCharges());
+            totalDataUsed += el.getTotalVolumeOfUsedData();
+            totalFreeMinutesUsed += el.getTotalFreeVoiceMinutes();
+            totalPaidMinutesUsed += el.getTotalPaidVoiceMinutes();
+        }
+        resString += "=== Total:\n";
+        resString += " - data used: " + totalDataUsed + "Mb, free minutes used: " + totalFreeMinutesUsed + "m, paid minutes used: " + totalPaidMinutesUsed + ", charged: " + totalCharges + "\n";
+        resString += "======== ======== ======== ========\n";
+
+        resetFreeMinutesAndDataVolume();
+        this.charges = new ArrayList<>();
+        // TODO: SAVE !!!!
+
+        return resString;
+    }
+
+
+    public void resetFreeMinutesAndDataVolume() {
+        this.freeMinutesLeft = this.getSubscription().minutesIncluded;
+        this.dataVolumeLeft = this.getSubscription().dataVolumeInMB;
     }
     
 }

@@ -5,6 +5,23 @@ import java.math.BigDecimal;
 public class Subscription {
 
     int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     String name;
     BigDecimal basicFee;
     int minutesIncluded;

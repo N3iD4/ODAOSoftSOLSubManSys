@@ -5,18 +5,6 @@ import java.io.InputStreamReader;
 
 public class CommandLineInterface {
 
-
-
-    /*public static void start() throws IOException {
-        menu_main();
-    }*/
-
-
-
-
-
-
-
     public static void waitForUserToContinue(String message) {
         letUserChooseMenuItem(message, new String[] {"Continue"});
     }
@@ -115,6 +103,32 @@ public class CommandLineInterface {
 
     }
 
+    public static String askAndGetImsi(String message) {
+        String userInput = null;
+        boolean validInputEntered = false;
+        while (!validInputEntered) {
+            validInputEntered = true;
+
+            System.out.print(message);
+            try {
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                userInput = br.readLine();
+
+                int stringAsIntHelper = Integer.parseInt(userInput);
+                if (userInput.length() != 10 || stringAsIntHelper < 0) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                validInputEntered = false;
+            }
+
+            if (!validInputEntered) {
+                System.out.println("Sorry, you should enter a 10-digit number, please try again");
+            }
+        }
+        return userInput;
+
+    }
 
 
 }

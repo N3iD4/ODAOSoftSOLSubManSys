@@ -26,11 +26,11 @@ public class Terminal {
         this.name = name;
     }
 
-    public boolean getSupportedsupports4G() {
+    public boolean getSupports4G() {
         return supports4G;
     }
 
-    public void setsupports4G(boolean supports4G) {
+    public void setSupports4G(boolean supports4G) {
         this.supports4G = supports4G;
     }
 
