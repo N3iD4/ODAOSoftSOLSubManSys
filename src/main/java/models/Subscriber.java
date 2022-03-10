@@ -14,7 +14,7 @@ public class Subscriber {
     private int subscriptionId;
     private ArrayList<ChargeDTO> charges;
     private int freeMinutesLeft;
-    private int dataVolumeLeft; //TODO getter setter fehlen
+    private int dataVolumeLeft;
 
     public int getTerminalId() {
         return terminalId;
@@ -32,9 +32,7 @@ public class Subscriber {
         this.subscriptionId = subscriptionId;
     }
 
-    public Subscriber() {
-
-    }
+    private Subscriber() {}
 
     public Subscriber(Subscriber subscriber) {
         setId(subscriber.id);

@@ -54,12 +54,6 @@ public class JsonSave {
     public static void main(String args[]) {
         System.out.println("Hello World");
 
-        Subscriber sub1 = new Subscriber(0,"Hans","Mueller","2929292929",1,1);
-        SubscriberHandler.addSubscriber(sub1);
 
-        JsonSave js = new JsonSave();
-        js.saveDataSubscribers();
-        js.laodDataSubscriber();
-        System.out.println(SubscriberHandler.ToString() + SubscriberHandler.subscribers.size());
     }
 }
