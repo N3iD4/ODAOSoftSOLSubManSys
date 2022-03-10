@@ -3,8 +3,7 @@ package models;
 import java.math.BigDecimal;
 
 public class Subscription {
-    static int[] keys;
-    static Subscription[] subscriptions;
+
 
     String name;
     BigDecimal basicFee;
@@ -21,55 +20,6 @@ public class Subscription {
         this.minutesIncluded = minutesIncluded;
         this.pricePerExtraMinute = pricePerExtraMinute;
         this.dataVolumeInMB = dataVolumeInMB;
-    }
-
-
-
-    static int[] getSubscriptionKeys(){
-        int[] ret= {};
-        return ret;
-    }
-
-    static Subscription getSubscriptionByKey(int key){
-        Subscription ret = new Subscription();
-        return ret;
-    }
-
-    private void initializeSubscriptions(){
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public static int[] getKeys() {
-        return keys;
-    }
-
-    public static void setKeys(int[] keys) {
-        Subscription.keys = keys;
-    }
-
-    public static Subscription[] getSubscriptions() {
-        return subscriptions;
-    }
-
-    public static void setSubscriptions(Subscription[] subscriptions) {
-        Subscription.subscriptions = subscriptions;
     }
 
     public String getName() {
