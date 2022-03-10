@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 public class Subscription {
 
+    //TODO tostring
+
     int id;
     String name;
     BigDecimal basicFee;
@@ -63,4 +65,14 @@ public class Subscription {
     }
 
 
+    @Override
+    public String toString() {
+        return  "id: " + id +
+                "| name: " + name +
+                "| basicFee: " + basicFee +
+                "| minutesIncluded: " + minutesIncluded +
+                "| pricePerExtraMinute: " + pricePerExtraMinute +
+                "| dataVolumeInMB: " + dataVolumeInMB +
+                "| isActive: " + isActive;
+    }
 }
