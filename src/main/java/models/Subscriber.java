@@ -24,17 +24,23 @@ public class Subscriber {
         setId(subscriber.id);
         setForename(subscriber.forename);
         setSurname(subscriber.surname);
-        setIMSI(IMSI);
+        setIMSI(subscriber.IMSI);
+        setMCC(subscriber.MCC);
+        setMNC(subscriber.MNC);
+        setMSIN(subscriber.MSIN);
         setTerminalType(subscriber.terminalType);
         setSubscriptionType(subscriber.subscriptionOldType);
         setCharges(subscriber.charges);
     }
 
-    public Subscriber(int id, String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
+    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
         setId(id);
         setForename(forename);
         setSurname(surname);
         setIMSI(IMSI);
+        setMCC(MCC);
+        setMNC(MNC);
+        setMSIN(MSIN);
         setTerminalType(terminalType);
         setSubscriptionType(subscriptionOldType);
         setCharges(charges);
