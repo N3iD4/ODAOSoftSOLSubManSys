@@ -258,8 +258,8 @@ public class Subscriber {
     public static void main(String[] args){
         Subscriber subscriber = new Subscriber();
         subscriber.setForename("aaa");
-        PhairPhone l = new PhairPhone();
-        subscriber.setTerminalType(l);
+        //PhairPhone l = new PhairPhone();
+        //subscriber.setTerminalType(l);
         //GreenMobilL sub = new GreenMobilL();
         //subscriber.setSubscriptionType(sub);
         System.out.println(subscriber.getForename());
