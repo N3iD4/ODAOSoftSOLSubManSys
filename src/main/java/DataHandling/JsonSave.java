@@ -2,6 +2,10 @@ package DataHandling;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import models.ChargeDTO;
+import models.Subscriber;
+import models.SubscriptionOld;
+import models.Terminal;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,7 +14,7 @@ import java.util.List;
 public class JsonSave {
 
     public static void main(String args[]) {
-        System.out.println("Hello World");
+        /*System.out.println("Hello World");
         List<String> ar = new ArrayList<>();
         for (int i =0;i<99;i++) {
             ar.add("Hallo" + i*i);
@@ -19,16 +23,30 @@ public class JsonSave {
         js.saveData(ar);
         List<String> ar2 = new ArrayList<>();
         js.laodData(ar2);
-        System.out.println(ar2.size());
+        System.out.println(ar2.size());*/
+
+        Subscriber sub1 = new Subscriber("hans","mueller","HK103",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
+        Subscriber sub2 = new Subscriber("franz","krtoffel","HK104",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
+        Subscriber sub3 = new Subscriber("franziska","karotte","HK105",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
+
+        SubscriberHandler sh = new SubscriberHandler();
+        sh.addSubscriber(sub1);
+        sh.addSubscriber(sub2);
+        sh.addSubscriber(sub3);
+
+        System.out.println(sh.toString());
+
+
     }
 
-    String filename="DataSafe";
-    String filepath="src/main/java/DataHandling/Data";
+    private String filename="DataSafe";
+    private String filepath="src/main/java/DataHandling/Data";
 
    private static ObjectMapper mapper = new ObjectMapper(); // create once, reuse
 
 
     public JsonSave () {
+        new File(filepath).mkdirs();
 
     }
 
