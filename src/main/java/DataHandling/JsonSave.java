@@ -2,10 +2,7 @@ package DataHandling;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import models.ChargeDTO;
-import models.Subscriber;
-import models.SubscriptionOld;
-import models.Terminal;
+import models.*;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,18 +21,6 @@ public class JsonSave {
         List<String> ar2 = new ArrayList<>();
         js.laodData(ar2);
         System.out.println(ar2.size());*/
-
-        Subscriber sub1 = new Subscriber("hans","mueller","HK103",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-        Subscriber sub2 = new Subscriber("franz","krtoffel","HK104",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-        Subscriber sub3 = new Subscriber("franziska","karotte","HK105",new Terminal(),new SubscriptionOld(), new ArrayList<ChargeDTO>());
-
-        SubscriberHandler sh = new SubscriberHandler();
-        sh.addSubscriber(sub1);
-        sh.addSubscriber(sub2);
-        sh.addSubscriber(sub3);
-
-        System.out.println(sh.toString());
-
 
     }
 
