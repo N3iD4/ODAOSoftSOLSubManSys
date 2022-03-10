@@ -10,19 +10,18 @@ public class Subscriber {
     String IMSI;
     String MCC;
     String MNC;
-
-
     String MSIN;
     Terminal terminalType;
     SubscriptionOld subscriptionOldType;
     ArrayList<ChargeDTO> charges;
 
 
-    private Subscriber(){
+    public Subscriber(){
 
     }
 
-    public Subscriber(String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
+    public Subscriber(int id, String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
+        setId(id);
         setForename(forename);
         setSurname(surname);
         //setIMSI(IMSI);
