@@ -27,7 +27,7 @@ public class SessionFunctionality {
             CommandLineInterface.waitForUserToContinue("The id you entered didn't match a user account. No session has been created and you will be brought back to the main menu.");
             return;
         }
-        Subscriber subscriber = new Subscriber( 0, "Vorname", "Nachname", "0", "0", "0","0", new Terminal(), new SubscriptionOld(), new ArrayList<>()); // = DataHandling.getUser();
+        Subscriber subscriber = new Subscriber( 0, "Vorname", "Nachname", "0", "0", "0","0", new Terminal(), new Subscription(), new ArrayList<>()); // = DataHandling.getUser();
 
 
         // Ask for service type
@@ -51,23 +51,23 @@ public class SessionFunctionality {
 
         // Calculate nr of free minutes after call and costs for minutes bigger than the free minutes
         int freeMinutesBeforeCall = subscriber.getFreeMinutesLeft();
-        int freeMinutesAfterCall = freeMinutesBeforeCall - Math.ceil(timeInS / 60);
+        int freeMinutesAfterCall = freeMinutesBeforeCall - (int) Math.ceil(timeInS / 60);
         int usedPaidMinutes = 0;
         if (freeMinutesAfterCall < 0) {
-            costs = costs.add(  BigDecimal.valueOf(  -freeMinutesAfterCall  ).multiply(  BigDecimal.valueOf(  subscriber.getSubscription().getPricePerExtraMinute()  )  )  );
-            usedPaidMinutes = -freeMinutes;
+            costs = costs.add(  BigDecimal.valueOf(  -freeMinutesAfterCall  ).multiply(  subscriber.getSubscription().getPricePerExtraMinute()  )   );
+            usedPaidMinutes = -freeMinutesAfterCall;
             freeMinutesAfterCall = 0;
         }
         int usedFreeMinutes = freeMinutesBeforeCall - freeMinutesAfterCall;
 
         // Create and add charge to subcsriber
-        ChargeDTO newCharge = new ChargeDTO(0, usedFreeMinutes, usedPaidMinutes, cost);
+        ChargeDTO newCharge = new ChargeDTO(0, usedFreeMinutes, usedPaidMinutes, costs);
         subscriber.addCharge(newCharge);
 
         subscriber.setFreeMinutesLeft(freeMinutesAfterCall);
 
         System.out.println( "The following charge was created" );
-        CommandLineInterface.waitForUserToContinue(  newCharge  );
+        CommandLineInterface.waitForUserToContinue( newCharge.toString() );
 
     }
 
@@ -93,14 +93,14 @@ public class SessionFunctionality {
         if ( newUserVolume >= 0 ) {
             subscriber.setDataVolumeLeft( newUserVolume );
             // addcharge
-            ChargeDTO newCharge = new ChargeDTO();
+            ChargeDTO newCharge = new ChargeDTO(newUserVolume - oldUserVolume,0, 0, BigDecimal.valueOf(0) );
             subscriber.addCharge( newCharge );
             // TODO: save?
             CommandLineInterface.waitForUserToContinue( String.format("The user used %s for %d seconds with %d network quality. This was still covered by his data volume and lead to %dMb used.\nThe user's data volume changed from %dMb to %dMb.", serviceNames[serviceTypeIndex], timeInS, throughPutNames[signalStrengthIndex], requiredVolume, oldUserVolume, newUserVolume));
         } else {
             subscriber.setDataVolumeLeft( 0 );
             // addcharge
-            ChargeDTO newCharge = new ChargeDTO(); // nur für restliche Daten, also für oldUserVolume, berechnen !
+            ChargeDTO newCharge = new ChargeDTO( oldUserVolume,0, 0, BigDecimal.valueOf(0) ); // nur für restliche Daten, also für oldUserVolume, berechnen !
             subscriber.addCharge( newCharge );
             // TODO: save?
             CommandLineInterface.waitForUserToContinue( String.format("The user wanted to use %s for %d seconds with %d network quality. This was not covered by their data volume. Instead, %dMb were used.\nThe user's data volume changed from %dMb to %dMb.", serviceNames[serviceTypeIndex], timeInS, throughPutNames[signalStrengthIndex], oldUserVolume, oldUserVolume, 0));

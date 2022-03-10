@@ -1,10 +1,12 @@
 package models;
 
+import java.math.BigDecimal;
+
 public class ChargeDTO {
     private int totalVolumeOfUsedData;
     private int totalFreeVoiceMinutes;
     private int totalPaidVoiceMinutes;
-    private double appliedCharges;
+    private BigDecimal appliedCharges;
 
     public int getTotalVolumeOfUsedData() {
         return totalVolumeOfUsedData;
@@ -31,19 +33,28 @@ public class ChargeDTO {
     }
 
 
-    public double getAppliedCharges() {
+    public BigDecimal getAppliedCharges() {
         return appliedCharges;
     }
 
-    public void setAppliedCharges(double appliedCharges) {
+    public void setAppliedCharges(BigDecimal appliedCharges) {
         this.appliedCharges = appliedCharges;
     }
 
-    public ChargeDTO(int totalVolumeOfUsedData, int totalFreeVoiceMinutes, int totalPaidVoiceMinutes, double appliedCharges) {
+    public ChargeDTO(int totalVolumeOfUsedData, int totalFreeVoiceMinutes, int totalPaidVoiceMinutes, BigDecimal appliedCharges) {
         setTotalVolumeOfUsedData(totalVolumeOfUsedData);
         setTotalFreeVoiceMinutes(totalFreeVoiceMinutes);
         setTotalPaidVoiceMinutes(totalPaidVoiceMinutes);
         setAppliedCharges(appliedCharges);
     }
 
+    @Override
+    public String toString() {
+        return "ChargeDTO{" +
+                "totalVolumeOfUsedData=" + totalVolumeOfUsedData +
+                ", totalFreeVoiceMinutes=" + totalFreeVoiceMinutes +
+                ", totalPaidVoiceMinutes=" + totalPaidVoiceMinutes +
+                ", appliedCharges=" + appliedCharges +
+                '}';
+    }
 }
