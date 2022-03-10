@@ -8,14 +8,12 @@ import view.CommandLineInterface;
 public class UserInteraction {
 
 
-    public static void main(String[] args) throws IOException {
-        menu_main();
-    }
 
 
 
 
-    private static void menu_main() throws IOException {
+
+    protected static void menu_main() throws IOException {
         boolean keepRunning = true;
         while (keepRunning) {
             CommandLineInterface.clearScreen();
