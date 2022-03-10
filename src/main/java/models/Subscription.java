@@ -13,9 +13,9 @@ public class Subscription {
     int dataVolumeInMB;
     boolean active;
 
-    private Subscription(){};
+    public Subscription(){};
 
-    private Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
+    public Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
         this.name = name;
         this.basicFee = basicFee;
         this.minutesIncluded = minutesIncluded;
