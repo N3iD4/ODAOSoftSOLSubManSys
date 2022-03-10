@@ -94,6 +94,8 @@ public class SubscriberHandler {
         return false;
     }
 
+
+
     public static void main(String args[]) {
 
         //Subscriber sub1 = new Subscriber(0,"hans","mueller","4554554559","455","45","4554554559",new PearAphone4s(),new SubscriptionOld(), new ArrayList<ChargeDTO>());

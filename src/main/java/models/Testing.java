@@ -15,7 +15,7 @@ public class Testing {
         subscriber.setForename("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); //yes
         //subscriber.setForename("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); //no >30
 
-        subscriber.setTerminalType(new Terminal()); //yes
+        //subscriber.setTerminalType(new Terminal()); //yes
         //subscriber.setTerminalType(new Subscriber()); //no
 
         subscriber.setIMSI("1234567890"); //yes
@@ -23,12 +23,6 @@ public class Testing {
         //subscriber.setIMSI("12345678901"); //no
         //subscriber.setIMSI("123456789s"); //no
         //subscriber.setIMSI("123ahsjdhf"); //no
-
-        subscriber.setMCC("123"); //yes
-        //subscriber.setMCC("12"); //no
-        //subscriber.setMCC("1234"); //no
-        //subscriber.setMCC("12f"); //no
-        //subscriber.setMCC("12sdsf"); //no
 
     }
 }
