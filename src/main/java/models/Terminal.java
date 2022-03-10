@@ -7,7 +7,7 @@ public class Terminal {
     private String name;
     //private String supportedRANTechnologies;
     private boolean supports4G;
-    private boolean active;
+    private boolean isActive;
 
     public Terminal() {
 
@@ -45,11 +45,11 @@ public class Terminal {
 
 
     public boolean getActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        this.isActive = active;
     }
 
 

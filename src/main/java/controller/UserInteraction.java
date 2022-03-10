@@ -1,20 +1,17 @@
 package controller;
 
 import DataHandling.SubscriberHandler;
+import DataHandling.SubscriptionHandler;
+import DataHandling.TerminalHandler;
 import models.Subscriber;
 import models.Subscription;
+import models.Terminal;
 import view.CommandLineInterface;
 
 import java.io.IOException;
 import java.util.List;
 
 public class UserInteraction {
-
-
-
-
-
-
 
     protected static void menu_main() throws IOException {
         boolean keepRunning = true;
@@ -144,11 +141,11 @@ public class UserInteraction {
         imsi = CommandLineInterface.askAndGetImsi("IMSI: ");
         // get subscription
         List<Subscription> subscriptions = SubscriptionHandler.getSubscriptions();
-        int userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) subscriptions.stream().map( el -> el.getName() ).toArray() );
+        int userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) subscriptions.stream().filter( el -> el.getIsActive() ).map( el -> el.getName() ).toArray() );
         subscriptionId = subscriptions.get(userAnswer).getId();
         // get terminal
-        List<Subscription> terminals = TerminalHandler.getTerminals();
-        userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) terminals.stream().map( el -> el.getName() ).toArray() );
+        List<Terminal> terminals = TerminalHandler.getTerminals();
+        userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) terminals.stream().filter( el -> el.getIsActive() ).map( el -> el.getName() ).toArray() );
         terminalId = terminals.get(userAnswer).getId();
 
         // let controller try to create new subscriber-object
@@ -167,6 +164,11 @@ public class UserInteraction {
 
 
     private static void process_removeSubscriber() {
+        // exit immediately if there are no subscribers
+        if (  SubscriberHandler.getSubscribers().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscribers at the moment. You will be brought back to the main menu.");
+        }
+
         // ask user for subscirber-id
         int userIdToRemove = CommandLineInterface.askAndGetInt("Please specify the user id to remove");
 

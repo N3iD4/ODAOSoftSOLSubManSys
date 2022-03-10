@@ -5,31 +5,15 @@ import java.math.BigDecimal;
 public class Subscription {
 
     int id;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
     String name;
     BigDecimal basicFee;
     int minutesIncluded;
     BigDecimal pricePerExtraMinute;
     int dataVolumeInMB;
-    boolean active;
+    boolean isActive;
 
-    public Subscription(){};
+
+    public Subscription(){}
 
     public Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
         this.name = name;
@@ -39,10 +23,15 @@ public class Subscription {
         this.dataVolumeInMB = dataVolumeInMB;
     }
 
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    public boolean getIsActive() { return isActive; }
+    public void setIsActive(boolean active) { this.isActive = active; }
+
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -50,7 +39,6 @@ public class Subscription {
     public BigDecimal getBasicFee() {
         return basicFee;
     }
-
     public void setBasicFee(BigDecimal basicFee) {
         this.basicFee = basicFee;
     }
@@ -58,7 +46,6 @@ public class Subscription {
     public int getMinutesIncluded() {
         return minutesIncluded;
     }
-
     public void setMinutesIncluded(int minutesIncluded) {
         this.minutesIncluded = minutesIncluded;
     }
@@ -66,16 +53,14 @@ public class Subscription {
     public BigDecimal getPricePerExtraMinute() {
         return pricePerExtraMinute;
     }
-
-    public void setPricePerExtraMinute(BigDecimal pricePerExtraMinute) {
-        this.pricePerExtraMinute = pricePerExtraMinute;
-    }
+    public void setPricePerExtraMinute(BigDecimal pricePerExtraMinute) { this.pricePerExtraMinute = pricePerExtraMinute; }
 
     public int getDataVolumeInMB() {
         return dataVolumeInMB;
     }
-
     public void setDataVolumeInMB(int dataVolumeInMB) {
         this.dataVolumeInMB = dataVolumeInMB;
     }
+
+
 }
