@@ -1,4 +1,6 @@
-public class GreenMobilM extends Subscription{
+/*package models;
+
+public class GreenMobilM extends Subscription {
 
     public GreenMobilM (String name, double fee, int minutesIncluded, double pricePerExtraMinute, int dataVolumeInMB){
         super(name, fee, minutesIncluded, pricePerExtraMinute, dataVolumeInMB);
@@ -6,4 +8,4 @@ public class GreenMobilM extends Subscription{
     public GreenMobilM(){
         super();
     }
-}
+}*/

@@ -1,4 +1,6 @@
-public class PhairPhone extends Terminal{
+package models;
+
+public class PhairPhone extends Terminal {
 
     public PhairPhone(){}
 

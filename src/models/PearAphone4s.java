@@ -1,3 +1,5 @@
+package models;
+
 public class PearAphone4s extends Terminal {
 
     public PearAphone4s() {

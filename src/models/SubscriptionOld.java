@@ -1,13 +1,19 @@
-public class Subscription {
+package models;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
+public class SubscriptionOld {
+    static ArrayList<SubscriptionOld> subscriptionOlds;
     String name;
-    double fee;
+    BigDecimal fee;
     int minutesIncluded;
-    double pricePerExtraMinute;
+    BigDecimal pricePerExtraMinute;
     int dataVolumeInMB;
 
-    public Subscription(){}
+    public SubscriptionOld(){}
 
-    public Subscription(String name, double fee, int minutesIncluded, double pricePerExtraMinute, int dataVolumeInMB) {
+    public SubscriptionOld(String name, BigDecimal fee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB) {
         this.name = name;
         this.fee = fee;
         this.minutesIncluded = minutesIncluded;
@@ -15,19 +21,30 @@ public class Subscription {
         this.dataVolumeInMB = dataVolumeInMB;
     }
 
+
+    //static int[] getSubscriptionKeys(){
+        //vielleicht mit enum
+   // }
+
+
+
+
+
     public String getName() {
         return name;
     }
 
+
+    //getter public setter private
     public void setName(String name) {
         this.name = name;
     }
 
-    public double getFee() {
+    public BigDecimal getFee() {
         return fee;
     }
 
-    public void setFee(double fee) {
+    public void setFee(BigDecimal fee) {
         this.fee = fee;
     }
 
@@ -39,11 +56,11 @@ public class Subscription {
         this.minutesIncluded = minutesIncluded;
     }
 
-    public double getPricePerExtraMinute() {
+    public BigDecimal getPricePerExtraMinute() {
         return pricePerExtraMinute;
     }
 
-    public void setPricePerExtraMinute(double pricePerExtraMinute) {
+    public void setPricePerExtraMinute(BigDecimal pricePerExtraMinute) {
         this.pricePerExtraMinute = pricePerExtraMinute;
     }
 
