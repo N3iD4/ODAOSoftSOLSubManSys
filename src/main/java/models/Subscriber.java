@@ -10,22 +10,37 @@ public class Subscriber {
     String IMSI;
     String MCC;
     String MNC;
-
-
     String MSIN;
     Terminal terminalType;
     SubscriptionOld subscriptionOldType;
     ArrayList<ChargeDTO> charges;
 
 
-    private Subscriber(){
+    public Subscriber(){
 
     }
 
-    public Subscriber(String forename, String surname, String IMSI, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
+    public Subscriber(Subscriber subscriber){
+        setId(subscriber.id);
+        setForename(subscriber.forename);
+        setSurname(subscriber.surname);
+        setIMSI(subscriber.IMSI);
+        setMCC(subscriber.MCC);
+        setMNC(subscriber.MNC);
+        setMSIN(subscriber.MSIN);
+        setTerminalType(subscriber.terminalType);
+        setSubscriptionType(subscriber.subscriptionOldType);
+        setCharges(subscriber.charges);
+    }
+
+    public Subscriber(int id, String forename, String surname, String IMSI, String MCC, String MNC, String MSIN, Terminal terminalType, SubscriptionOld subscriptionOldType, ArrayList<ChargeDTO> charges) {
+        setId(id);
         setForename(forename);
         setSurname(surname);
-        //setIMSI(IMSI);
+        setIMSI(IMSI);
+        setMCC(MCC);
+        setMNC(MNC);
+        setMSIN(MSIN);
         setTerminalType(terminalType);
         setSubscriptionType(subscriptionOldType);
         setCharges(charges);
@@ -89,7 +104,7 @@ public class Subscriber {
         this.surname = surname;
     }
 
-   /* public String getIMSI() {
+    public String getIMSI() {
         return IMSI;
     }
 
@@ -101,7 +116,7 @@ public class Subscriber {
         }
         this.IMSI = IMSI;
     }
-*/
+
 
 
 
