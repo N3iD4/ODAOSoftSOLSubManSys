@@ -1,4 +1,6 @@
-public class SamsungS42plus extends Terminal{
+package models;
+
+public class SamsungS42plus extends Terminal {
 
     public SamsungS42plus(){}
 

@@ -1,3 +1,6 @@
+package models;
+
+
 public class Terminal {
 
     String name;
