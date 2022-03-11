@@ -179,7 +179,7 @@ public class UserInteraction {
         }
 
         // ask user for subscirber-id
-        int userIdToRemove = CommandLineInterface.askAndGetInt("Please specify the user id to remove");
+        int userIdToRemove = CommandLineInterface.askAndGetInt("Please specify the user id to be removed:\n");
 
         // Try to remove subscriber with entered id
         boolean success = true;
@@ -206,14 +206,6 @@ public class UserInteraction {
 
 
     private static void process_addSubscription() {
-        // declare variables for required data
-        String name;
-        BigDecimal basicFee;
-        int minutesIncluded;
-        BigDecimal pricePerExtraMinute;
-        int dataVolumeInMB;
-        boolean isActive;
-
         Subscription newSubscription = getSubscriptionObjectFromUser();
 
         // let controller try to create new subscriber-object
@@ -229,11 +221,85 @@ public class UserInteraction {
     }
 
     private static void process_removeSubscription() {
+        // exit immediately if there are no subscribers
+        if (  SubscriptionHandler.getSubscriptions().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscriptions at the moment. You will be brought back to the main menu.");
+            return;
+        }
 
+        // ask user for subscription-id
+        int subscriptionIdToRemove = CommandLineInterface.askAndGetInt("Please specify the subscription id to be removed:\n");
+
+        // Try to remove subscriber with entered id
+        boolean success = true;
+        try {
+            Subscription subscription = SubscriptionHandler.getSubscriptionById(subscriptionIdToRemove);
+            SubscriptionHandler.deleteSub(subscription);
+        } catch (Exception e) {
+            success = false;
+        }
+
+        // display whether subscriber was removed
+        if (success) {
+            CommandLineInterface.waitForUserToContinue("The subscription was removed.");
+        } else {
+            CommandLineInterface.waitForUserToContinue("A susbcription with the id specified by you could not be removed"); // IMPORTANT: No loop here, because if there are no subscribers yet the end-user will be stuck here because he can never seleect a valid user ! [Alternative one day: enter -1 for back to main menu]
+        }
 
     }
 
+
     private static void process_editSubscription() {
+        if (  SubscriptionHandler.getSubscriptions().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved subscriptions at the moment. You will be brought back to the main menu.");
+            return;
+        }
+
+        // ask user for subscription-id
+        int subscriptionIdToEdit = CommandLineInterface.askAndGetInt("Please specify the id of the subscription that you would like to edit:\n");
+        Subscription oldSubscription = SubscriptionHandler.getSubscriptionById(subscriptionIdToEdit);
+
+        System.out.println("Please enter the new subscription attributes - the validity of your change will be tested at the end:\n");
+        Subscription newSubscription = getSubscriptionObjectFromUser();
+
+        // is subscription in use?
+        boolean isInUse = SubscriberHandler.hasAnySubscriberSubscriptionWithId(subscriptionIdToEdit);
+
+        // test that there is no other subscription with the new name
+        if ( !oldSubscription.getName().equals( newSubscription.getName() )  &&  SubscriptionHandler.getSubscriptions().stream().anyMatch(  e -> e.getName().equals( newSubscription.getName() ) )  ) {
+            CommandLineInterface.waitForUserToContinue("Subscription couldn't be changed, because another subscription already has the same name (and for clarity reasons every subscription should have a different name).");
+            return;
+        }
+
+        if (isInUse) {
+            boolean isBetterOrEqual = true;
+
+            if ( oldSubscription.getBasicFee().compareTo( newSubscription.getBasicFee() ) < 0 ) {
+                isBetterOrEqual = false;
+            }
+
+            if ( oldSubscription.getMinutesIncluded() > newSubscription.getMinutesIncluded()  ) {
+                isBetterOrEqual = false;
+            }
+
+            if ( oldSubscription.getPricePerExtraMinute().compareTo( newSubscription.getPricePerExtraMinute() ) < 0 ) {
+                isBetterOrEqual = false;
+            }
+
+            if ( oldSubscription.getDataVolumeInMB() > newSubscription.getDataVolumeInMB() ) {
+                isBetterOrEqual = false;
+            }
+
+            if ( !isBetterOrEqual ) {
+                CommandLineInterface.waitForUserToContinue("Subscription couldn't be changed, because users are currently subscribed to it and the new conditions are worse than before");
+                return;
+            }
+
+            SubscriptionHandler.editSub(newSubscription);
+            CommandLineInterface.waitForUserToContinue("The changes were valid and have been saved.");
+
+        }
+
 
     }
 

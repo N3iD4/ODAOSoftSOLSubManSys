@@ -98,12 +98,12 @@ public class SubscriberHandler {
         JsonSave.saveDataSubscribers();
     }
 
-    public boolean hasAnySubscriberSubscriptionWithId(int subscriptionId) {
+    public static boolean hasAnySubscriberSubscriptionWithId(int subscriptionId) {
         return subscribers.stream().anyMatch( el -> el.getSubscriptionId() == subscriptionId );
     }
 
 
-    public boolean hasAnySubscriberTerminalWithId(int terminalId) {
+    public static boolean hasAnySubscriberTerminalWithId(int terminalId) {
         return subscribers.stream().anyMatch( el -> el.getTerminalId() == terminalId );
     }
 
