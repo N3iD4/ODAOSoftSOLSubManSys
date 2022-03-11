@@ -17,6 +17,7 @@ public class Subscription {
 
     public Subscription(){}
 
+
     public Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB, boolean isActive) {
         this.name = name;
         this.basicFee = basicFee;

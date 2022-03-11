@@ -82,14 +82,11 @@ public class CommandLineInterface {
 
     public static int askAndGetNonNegativeInt(String message) {
         int userInputInt = -1;
-        boolean validInputEntered = false;
-        while (!validInputEntered) {
-            validInputEntered = true;
-
+        while (userInputInt < 0) {
             userInputInt = askAndGetInt(message);
 
-            if (userInputInt >= 0) {
-                System.out.println("Sorry, you should enter a number, please try again");
+            if (userInputInt < 0) {
+                System.out.println("Sorry, you should enter a positive number, please try again");
             }
         }
         return userInputInt;

@@ -11,6 +11,7 @@ import view.CommandLineInterface;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserInteraction {
 
@@ -129,6 +130,12 @@ public class UserInteraction {
 
 
     private static void process_addSubscriber() {
+        // exit immediately if there are no active subscriptions or no active terminals
+        if (  SubscriptionHandler.getSubscriptions().stream().filter(  e -> e.getIsActive()  ).count() <= 0 || TerminalHandler.getTerminals().stream().filter(  e -> e.getIsActive()  ).count() <= 0 ) {
+            CommandLineInterface.waitForUserToContinue("There are either no active subscriptions or no active terminals. You need to specify both in the subscriber creation process. Because of this, you cannot create a new subscriber now. Nothing has changed and you will be brought back to the main menu.");
+            return;
+        }
+
         // declare variables for required data
         String forename;
         String surname;
@@ -232,13 +239,6 @@ public class UserInteraction {
 
 
     private static Subscription getSubscriptionObjectFromUser() {
-        // declare variables for required data
-        String name = "undefined";
-        BigDecimal basicFee = new BigDecimal(0);
-        int minutesIncluded = 0;
-        BigDecimal pricePerExtraMinute = new BigDecimal("1");
-        int dataVolumeInMB = 0;
-        boolean isActive = false;
 
         Subscription resSubscription = new Subscription();
 
@@ -246,11 +246,11 @@ public class UserInteraction {
         boolean validResponse = false;
         while (!validResponse) {
             String userResponse = CommandLineInterface.askAndGetString("Subscription name: ");
-            validResponse = SubscriptionHandler.getSubscriptions().stream().anyMatch( e -> e.getName().equals(userResponse) );
+            validResponse = !SubscriptionHandler.getSubscriptions().stream().anyMatch( e -> e.getName().equals(userResponse) );
             if (!validResponse) {
                 System.out.println("A subscription with this name already exists. Please choose another name for clarity.");
             } else {
-                resSubscription.setName(name);
+                resSubscription.setName(userResponse);
             }
         }
 
@@ -331,7 +331,7 @@ public class UserInteraction {
             return;
         }
 
-        CommandLineInterface.waitForUserToContinue( SubscriptionHandler.getSubscriptions().toString() );
+        CommandLineInterface.waitForUserToContinue( SubscriptionHandler.getSubscriptions().stream().map(  el -> el.toString()  ).collect( Collectors.joining("\n")  ) );
     }
 
     private static void process_listTerminals() {
