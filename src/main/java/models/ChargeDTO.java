@@ -52,6 +52,7 @@ public class ChargeDTO {
 
     @Override
     public String toString() {
-        return "data: " + totalVolumeOfUsedData + "Mb, free voice minutes: " + totalFreeVoiceMinutes + "min, paid voice minutes: " + totalPaidVoiceMinutes + "min, cost: " + appliedCharges + "€";
+        //return "data: " + totalVolumeOfUsedData + "Mb, free voice minutes: " + totalFreeVoiceMinutes + "min, paid voice minutes: " + totalPaidVoiceMinutes + "min, cost: " + appliedCharges + "€";
+        return "data: " + totalVolumeOfUsedData + "Mb, free voice minutes: " + totalFreeVoiceMinutes + "min, paid voice minutes: " + totalPaidVoiceMinutes + "min, cost: " + appliedCharges + " euro";
     }
 }

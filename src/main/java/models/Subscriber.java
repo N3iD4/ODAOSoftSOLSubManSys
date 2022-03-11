@@ -199,14 +199,15 @@ public class Subscriber {
         String resString = "======== ======== ======== ========\n=== New invoice for " + forename + ", " + surname + "\n";
         resString += "=== Charges:\n";
         for (ChargeDTO el : charges) {
-            resString += " - data used: " + el.getTotalVolumeOfUsedData() + "Mb, free minutes used: " + el.getTotalFreeVoiceMinutes() + "m, paid minutes used: " + el.getTotalPaidVoiceMinutes() + ", charged: " + el.getAppliedCharges() + "€\n";
+            //resString += " - data used: " + el.getTotalVolumeOfUsedData() + "Mb, free minutes used: " + el.getTotalFreeVoiceMinutes() + "m, paid minutes used: " + el.getTotalPaidVoiceMinutes() + ", charged: " + el.getAppliedCharges() + "€\n";
+            resString += " - data used: " + el.getTotalVolumeOfUsedData() + "Mb, free minutes used: " + el.getTotalFreeVoiceMinutes() + "m, paid minutes used: " + el.getTotalPaidVoiceMinutes() + ", charged: " + el.getAppliedCharges() + "euro\n";
             totalCharges = totalCharges.add(el.getAppliedCharges());
             totalDataUsed += el.getTotalVolumeOfUsedData();
             totalFreeMinutesUsed += el.getTotalFreeVoiceMinutes();
             totalPaidMinutesUsed += el.getTotalPaidVoiceMinutes();
         }
         resString += "=== Total:\n";
-        resString += " - data used: " + totalDataUsed + "Mb, free minutes used: " + totalFreeMinutesUsed + "m, paid minutes used: " + totalPaidMinutesUsed + ", charged: " + totalCharges + "€ (includes basic fee of " + this.getSubscription().getBasicFee() + "€)\n";
+        resString += " - data used: " + totalDataUsed + "Mb, free minutes used: " + totalFreeMinutesUsed + "m, paid minutes used: " + totalPaidMinutesUsed + ", charged: " + totalCharges + "€ (includes basic fee of " + this.getSubscription().getBasicFee() + "euro)\n";
         resString += "======== ======== ======== ========\n";
 
         resetFreeMinutesAndDataVolume();

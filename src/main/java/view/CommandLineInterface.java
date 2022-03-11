@@ -126,7 +126,7 @@ public class CommandLineInterface {
                 BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
                 userInput = br.readLine();
 
-                int stringAsIntHelper = Integer.parseInt(userInput);
+                long stringAsIntHelper = Long.parseLong(userInput);
                 if (userInput.length() != 10 || stringAsIntHelper < 0) {
                     throw new Exception();
                 }

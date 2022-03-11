@@ -165,7 +165,8 @@ public class UserInteraction {
             SubscriberHandler.save();
 
             CommandLineInterface.letUserChooseMenuItem("The following user has been added: " + forename + " " + surname + " " + imsi, new String[] {"Continue"});
-        } catch (IllegalArgumentException e) {
+        //} catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             CommandLineInterface.letUserChooseMenuItem("The values provided by you weren't valid for the creation of a new subscriber. Nothing has been changed, you will be transfered back to the main menu now.", new String[] {"Continue"});
         }
 
@@ -311,7 +312,7 @@ public class UserInteraction {
 
         // The changes were valid
         // create invoice to pay off old costs and start clean into new subscription
-        Subscriber[] affectedSubscribers = (Subscriber[]) SubscriberHandler.getSubscribers().stream().filter(  el -> el.getSubscriptionId() == subscriptionIdToEdit  ).toArray();
+        Subscriber[] affectedSubscribers = (Subscriber[]) SubscriberHandler.getSubscribers().stream().filter(  el -> el.getSubscriptionId() == subscriptionIdToEdit  ).toArray(); // TODO: ERROR
         String invoiceTexts = "There were " + affectedSubscribers.length + " subscribers affected by this change.";
 
         if (affectedSubscribers.length != 0) {
