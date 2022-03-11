@@ -1,5 +1,6 @@
 package controller;
 
+import DataHandling.SubscriberHandler;
 import models.*;
 import view.CommandLineInterface;
 
@@ -22,12 +23,12 @@ public class SessionFunctionality {
         // Ask for userId
         int userId = CommandLineInterface.askAndGetInt("Which user should open a session?");
         // Check if valid userId
-        boolean isValidId = true; // SubscriberHandler.  = Persistence.UserManagement.isValidId(userId);
+        boolean isValidId = SubscriberHandler.checkID(userId);
         if (!isValidId) {
             CommandLineInterface.waitForUserToContinue("The id you entered didn't match a user account. No session has been created and you will be brought back to the main menu.");
             return;
         }
-        Subscriber subscriber = new Subscriber( 0, "Vorname", "Nachname", "0", "0", "0","0", 0, 0, new ArrayList<>()); // = DataHandling.getUser();
+        Subscriber subscriber = SubscriberHandler.getSubscriberById(userId);
 
 
         // Ask for service type

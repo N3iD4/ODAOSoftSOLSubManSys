@@ -103,8 +103,19 @@ public class SubscriberHandler {
         JsonSave.saveDataSubscribers();
     }
 
+    public static boolean hasAnySubscriberSubscriptionWithId(int subscriptionId) {
+        return subscribers.stream().anyMatch( el -> el.getSubscriptionId() == subscriptionId );
+    }
+
+
+    public static boolean hasAnySubscriberTerminalWithId(int terminalId) {
+        return subscribers.stream().anyMatch( el -> el.getTerminalId() == terminalId );
+    }
+
+
     public static void load() {
         JsonSave.laodDataSubscriber();
+
     }
 
 }

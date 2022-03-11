@@ -76,9 +76,9 @@ public class Testing {
     public static void TestSubscriptionsHandler() {
         System.out.println("=============================SUBSCRIPTIONS============================");
 
-        Subscription sub1 = new Subscription("freeTarif",new BigDecimal("10.0"),3,new BigDecimal("83.0"),2);
-        Subscription sub2 = new Subscription("mainTarif",new BigDecimal("10.0"),3,new BigDecimal("887.0"),2);
-        Subscription sub3 = new Subscription("extend",new BigDecimal("11.0"),3,new BigDecimal("84.0"),2);
+        Subscription sub1 = new Subscription("freeTarif",new BigDecimal("10.0"),3,new BigDecimal("83.0"),2, true);
+        Subscription sub2 = new Subscription("mainTarif",new BigDecimal("10.0"),3,new BigDecimal("887.0"),2, true);
+        Subscription sub3 = new Subscription("extend",new BigDecimal("11.0"),3,new BigDecimal("84.0"),2, true);
 
         String tmp ="SubscriptionHandler{subscriptions=[id: 0| name: freeTarif| basicFee: 10.0| minutesIncluded: 3| pricePerExtraMinute: 83.0| dataVolumeInMB: 2| isActive: false, id: 1| name: mainTarif| basicFee: 10.0| minutesIncluded: 3| pricePerExtraMinute: 887.0| dataVolumeInMB: 2| isActive: false, id: 2| name: extend| basicFee: 11.0| minutesIncluded: 3| pricePerExtraMinute: 84.0| dataVolumeInMB: 2| isActive: false]}";
 
