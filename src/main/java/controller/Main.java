@@ -14,6 +14,12 @@ public class Main {
 
         // 2. start menu
         UserInteraction.menu_main();
+
+        // 3. save data to be sure
+        JsonSave.saveDataSubscribers();
+        JsonSave.saveDataSubscriptions();
+        JsonSave.saveDataTerminals();
+
     }
 
 }

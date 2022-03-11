@@ -16,6 +16,16 @@ public class Subscription {
     public Subscription(){}
 
 
+    public Subscription(int id, String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB, boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.basicFee = basicFee;
+        this.minutesIncluded = minutesIncluded;
+        this.pricePerExtraMinute = pricePerExtraMinute;
+        this.dataVolumeInMB = dataVolumeInMB;
+        this.isActive = isActive;
+    }
+
     public Subscription(String name, BigDecimal basicFee, int minutesIncluded, BigDecimal pricePerExtraMinute, int dataVolumeInMB, boolean isActive) {
         this.name = name;
         this.basicFee = basicFee;
@@ -67,12 +77,12 @@ public class Subscription {
 
     @Override
     public String toString() {
-        return  "id: " + id +
-                "| name: " + name +
-                "| basicFee: " + basicFee +
-                "| minutesIncluded: " + minutesIncluded +
-                "| pricePerExtraMinute: " + pricePerExtraMinute +
-                "| dataVolumeInMB: " + dataVolumeInMB +
-                "| isActive: " + isActive;
+        return  "ID: " + id +
+                " | name: " + name +
+                " | basic fee: " + basicFee +
+                " | minutes included: " + minutesIncluded +
+                " | price per extra minute: " + pricePerExtraMinute +
+                " | data volume in MB: " + dataVolumeInMB +
+                " | is active: " + isActive;
     }
 }

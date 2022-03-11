@@ -13,6 +13,12 @@ public class Terminal {
 
     }
 
+    public Terminal(int id, String name, boolean supports4G, boolean isActive) {
+        this.id = id;
+        this.name = name;
+        this.supports4G = supports4G;
+        this.isActive = isActive;
+    }
     public Terminal(String name, boolean supports4G) {
         this.name = name;
         this.supports4G = supports4G;
@@ -55,10 +61,9 @@ public class Terminal {
 
     @Override
     public String toString() {
-        return "id: " + id +
-                "| name: " + name +
-                "| supports4G: " + supports4G +
-                "| isActive: " + isActive;
+        return "ID: " + id + " | Name: " + name +
+                " | 4G support: " + supports4G +
+                " | is active: " + isActive;
     }
 }
 
