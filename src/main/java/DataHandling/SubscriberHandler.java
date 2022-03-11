@@ -80,8 +80,13 @@ public class SubscriberHandler {
     }
 
     public static Subscriber getSubscriberById(int id) throws IllegalArgumentException {
-      if(checkID(id))
-          return subscribers.get(id);
+      if(checkID(id)) {
+          Object[] tempar =  subscribers.toArray();
+          for ( int i =0; i<tempar.length;i++) {
+              if(((Subscriber)tempar[i]).getId() == id)
+                  return subscribers.get(i);
+          }
+      }
       throw new IllegalArgumentException("Subscriber don't found");
     }
 
