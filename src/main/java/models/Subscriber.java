@@ -1,5 +1,8 @@
 package models;
 
+import DataHandling.SubscriberHandler;
+import DataHandling.SubscriptionHandler;
+import DataHandling.TerminalHandler;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigDecimal;
@@ -59,14 +62,12 @@ public class Subscriber {
 
     @JsonIgnore
     public Subscription getSubscription() {
-        return null;
-        //return SubscriptionHandler.getSubscriptionById(this.subscriptionId);
+        return SubscriptionHandler.getSubscriptionById(this.subscriptionId);
     }
 
     @JsonIgnore
     public Terminal getTerminal() {
-        return null;
-        //return TerminalHandler.getTerminalById(this.terminalId);
+        return TerminalHandler.getTerminalById(this.terminalId);
     }
 
     @JsonIgnore
@@ -76,7 +77,7 @@ public class Subscriber {
 
 
     public String toString(){
-        return "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | ISMI: " + this.IMSI + " | Terminaltype: " + this.getTerminal() + " | Subscription: " + this.getSubscription();
+        return "ID: " + this.id + " | Forename: " + this.forename + " | Surname: " + this.surname + " | IMSI: " + this.IMSI + " | Terminal: " + this.getTerminal().getName() + " | Subscription: " + this.getSubscription().getName() + " | free minutes left: " + freeMinutesLeft + "min | data volume left: " + dataVolumeLeft + "Mb";
     }
 
     public int getId() {
@@ -97,8 +98,8 @@ public class Subscriber {
             throw new IllegalArgumentException("Value is null!");
         }
         char[] arr = forename.toCharArray();
-        if(arr.length <= 1 || arr.length > 30){
-            throw new IllegalArgumentException("Name has too many(>30) or little(<2) letters!");
+        if(arr.length < 1 || arr.length > 30){
+            throw new IllegalArgumentException("Name has too many(>30) or little(<1) letters!");
         }
         for(int i=0; i<arr.length; i++) {
             if (arr[i] < 65) {
@@ -121,8 +122,8 @@ public class Subscriber {
             throw new IllegalArgumentException("Value is null!");
         }
         char[] arr = surname.toCharArray();
-        if(arr.length <= 1 || arr.length > 30){
-            throw new IllegalArgumentException("Name has too many(>30) or little(<2) letters!");
+        if(arr.length < 1 || arr.length > 30){
+            throw new IllegalArgumentException("Name has too many(>30) or little(<1) letters!");
         }
         for(int i=0; i<arr.length; i++) {
             if (arr[i] < 65) {
@@ -191,26 +192,27 @@ public class Subscriber {
 
     // returns string for invoice and then resets minutesIncluded, dataVolumeLeft and charges
     public String createInvoice() {
-        BigDecimal totalCharges = new BigDecimal(0);
+        BigDecimal totalCharges = this.getSubscription().basicFee; // important: also add basicFee to the charges
         int totalDataUsed = 0;
         int totalFreeMinutesUsed = 0;
         int totalPaidMinutesUsed = 0;
-        String resString = "======== ======== ======== ========\n=== New invoice for %s, %s\n";
+        String resString = "======== ======== ======== ========\n=== New invoice for " + forename + ", " + surname + "\n";
         resString += "=== Charges:\n";
         for (ChargeDTO el : charges) {
-            resString += " - data used: " + el.getTotalVolumeOfUsedData() + "Mb, free minutes used: " + el.getTotalFreeVoiceMinutes() + "m, paid minutes used: " + el.getTotalPaidVoiceMinutes() + ", charged: " + el.getAppliedCharges() + "\n";
+            resString += " - data used: " + el.getTotalVolumeOfUsedData() + "Mb, free minutes used: " + el.getTotalFreeVoiceMinutes() + "m, paid minutes used: " + el.getTotalPaidVoiceMinutes() + ", charged: " + el.getAppliedCharges() + "€\n";
             totalCharges = totalCharges.add(el.getAppliedCharges());
             totalDataUsed += el.getTotalVolumeOfUsedData();
             totalFreeMinutesUsed += el.getTotalFreeVoiceMinutes();
             totalPaidMinutesUsed += el.getTotalPaidVoiceMinutes();
         }
         resString += "=== Total:\n";
-        resString += " - data used: " + totalDataUsed + "Mb, free minutes used: " + totalFreeMinutesUsed + "m, paid minutes used: " + totalPaidMinutesUsed + ", charged: " + totalCharges + "\n";
+        resString += " - data used: " + totalDataUsed + "Mb, free minutes used: " + totalFreeMinutesUsed + "m, paid minutes used: " + totalPaidMinutesUsed + ", charged: " + totalCharges + "€ (includes basic fee of " + this.getSubscription().getBasicFee() + "€)\n";
         resString += "======== ======== ======== ========\n";
 
         resetFreeMinutesAndDataVolume();
         this.charges = new ArrayList<>();
-        // TODO: SAVE !!!!
+
+        SubscriberHandler.save();
 
         return resString;
     }

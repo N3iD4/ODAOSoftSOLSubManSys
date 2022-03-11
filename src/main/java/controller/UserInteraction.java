@@ -84,7 +84,7 @@ public class UserInteraction {
         CommandLineInterface.clearScreen();
         int response = CommandLineInterface.letUserChooseMenuItem(
                 "You want to manage subscriptions:\n",
-                new String[] { "add subscription", "remove subscription", "edit subscriptions", "back to main menu" });
+                new String[] { "add subscription", "remove subscription", "edit subscription", "back to main menu" });
 
         switch (response) {
             case 0:
@@ -109,7 +109,7 @@ public class UserInteraction {
         CommandLineInterface.clearScreen();
         int response = CommandLineInterface.letUserChooseMenuItem(
                 "You want to manage terminals:\n",
-                new String[] { "add subscription", "remove subscription", "edit subscriptions", "back to main menu" });
+                new String[] { "add terminal", "remove terminal", "edit terminal", "back to main menu" });
 
         switch (response) {
             case 0:
@@ -149,17 +149,18 @@ public class UserInteraction {
         imsi = CommandLineInterface.askAndGetImsi("IMSI: ");
         // get subscription
         List<Subscription> subscriptions = SubscriptionHandler.getSubscriptions();
-        int userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) subscriptions.stream().filter( el -> el.getIsActive() ).map( el -> el.getName() ).toArray() );
+        int userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription:\n", (String[]) subscriptions.stream().filter( el -> el.getIsActive() ).map( el -> el.getName() ).toArray(String[]::new) );
         subscriptionId = subscriptions.get(userAnswer).getId();
         // get terminal
         List<Terminal> terminals = TerminalHandler.getTerminals();
-        userAnswer = CommandLineInterface.letUserChooseMenuItem("Subscription", (String[]) terminals.stream().filter( el -> el.getIsActive() ).map( el -> el.getName() ).toArray() );
+        userAnswer = CommandLineInterface.letUserChooseMenuItem("Terminal:\n", (String[]) terminals.stream().filter( el -> el.getIsActive() ).map( el -> el.getName() ).toArray(String[]::new) );
         terminalId = terminals.get(userAnswer).getId();
 
         // let controller try to create new subscriber-object
         try {
             //
             Subscriber newSubscriber = new Subscriber( -1, forename, surname, imsi, terminalId, subscriptionId );
+            newSubscriber.resetFreeMinutesAndDataVolume();
             SubscriberHandler.addSubscriber(newSubscriber);
             SubscriberHandler.save();
 
@@ -186,6 +187,7 @@ public class UserInteraction {
         try {
             Subscriber subscriber = SubscriberHandler.getSubscriberById(userIdToRemove);
             SubscriberHandler.deleteSub(subscriber);
+            SubscriberHandler.save();
         } catch (Exception e) {
             success = false;
         }
@@ -208,10 +210,10 @@ public class UserInteraction {
     private static void process_addSubscription() {
         Subscription newSubscription = getSubscriptionObjectFromUser();
 
-        // let controller try to create new subscriber-object
+        // let controller try to create new subscription-object
         try {
             SubscriptionHandler.addSubscription(newSubscription);
-            SubscriberHandler.save();
+            SubscriptionHandler.save();
 
             CommandLineInterface.waitForUserToContinue("The new subscription has been added.");
         } catch (IllegalArgumentException e) {
@@ -244,6 +246,7 @@ public class UserInteraction {
         try {
             Subscription subscription = SubscriptionHandler.getSubscriptionById(subscriptionIdToRemove);
             SubscriptionHandler.deleteSub(subscription);
+            SubscriptionHandler.save();
         } catch (Exception e) {
             success = false;
         }
@@ -268,7 +271,7 @@ public class UserInteraction {
         int subscriptionIdToEdit = CommandLineInterface.askAndGetInt("Please specify the id of the subscription that you would like to edit:\n");
         Subscription oldSubscription = SubscriptionHandler.getSubscriptionById(subscriptionIdToEdit);
 
-        System.out.println("Please enter the new subscription attributes - the validity of your change will be tested at the end:\n");
+        System.out.print("Please enter the new subscription attributes - the validity of your change will be tested at the end:\n");
         Subscription newSubscription = getSubscriptionObjectFromUser();
 
         // is subscription in use?
@@ -304,10 +307,29 @@ public class UserInteraction {
                 return;
             }
 
-            SubscriptionHandler.editSub(newSubscription);
-            CommandLineInterface.waitForUserToContinue("The changes were valid and have been saved.");
-
         }
+
+        // The changes were valid
+        // create invoice to pay off old costs and start clean into new subscription
+        Subscriber[] affectedSubscribers = (Subscriber[]) SubscriberHandler.getSubscribers().stream().filter(  el -> el.getSubscriptionId() == subscriptionIdToEdit  ).toArray();
+        String invoiceTexts = "There were " + affectedSubscribers.length + " subscribers affected by this change.";
+
+        if (affectedSubscribers.length != 0) {
+            invoiceTexts += " For the transfer to the updated subscription, invoices have been issued to them for the old subscription format:\n";
+            for (Subscriber subscriber : affectedSubscribers) {
+                invoiceTexts += subscriber.createInvoice();
+            }
+        }
+
+        System.out.print( invoiceTexts );
+
+
+        SubscriptionHandler.editSub(newSubscription);
+        for (Subscriber subscriber : affectedSubscribers) {
+            subscriber.createInvoice(); // überall nochmal invoice, damit Daten/Volumen/... auf die neuen Größen resettet
+        }
+        SubscriptionHandler.save();
+        CommandLineInterface.waitForUserToContinue("The changes were valid and have been saved.");
 
 
     }
@@ -348,14 +370,81 @@ public class UserInteraction {
 
 
     private static void process_addTerminal() {
+        Terminal newTerminal = getTerminalObjectFromUser();
 
+        // let controller try to create new terminal-object
+        try {
+            TerminalHandler.addTerminal(newTerminal);
+            TerminalHandler.save();
+
+            CommandLineInterface.waitForUserToContinue("The new terminal has been added.");
+        } catch (IllegalArgumentException e) {
+            CommandLineInterface.waitForUserToContinue("The values provided by you weren't valid for the creation of a new terminal. Nothing has been changed, you will be transferred back to the main menu now.");
+        }
     }
 
     private static void process_removeTerminal() {
+        // exit immediately if there are no terminals
+        if (  TerminalHandler.getTerminals().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved terminals at the moment. You will be brought back to the main menu.");
+            return;
+        }
 
+        // ask user for terminal-id
+        int terminalIdToRemove = CommandLineInterface.askAndGetInt("Please specify the id of the terminal to be removed:\n");
+
+
+        // exit if users are currently owning this subscription
+        if (  SubscriberHandler.hasAnySubscriberTerminalWithId(terminalIdToRemove)  ) {
+            CommandLineInterface.waitForUserToContinue("The specified terminal is currently in use by subscribers. Because of this, it cannot be removed. You will be brought back to the main menu.");
+            return;
+        }
+
+
+        // Try to remove terminal with entered id
+        boolean success = true;
+        try {
+            Terminal terminal = TerminalHandler.getTerminalById(terminalIdToRemove);
+            TerminalHandler.deleteTerminal(terminal);
+            TerminalHandler.save();
+        } catch (Exception e) {
+            success = false;
+        }
+
+        // display whether subscriber was removed
+        if (success) {
+            CommandLineInterface.waitForUserToContinue("The terminal was removed.");
+        } else {
+            CommandLineInterface.waitForUserToContinue("A terminal with the id specified by you could not be removed"); // IMPORTANT: No loop here, because if there are no subscribers yet the end-user will be stuck here because he can never seleect a valid user ! [Alternative one day: enter -1 for back to main menu]
+        }
     }
 
     private static void process_editTerminal() {
+        if (  TerminalHandler.getTerminals().size() == 0  ) {
+            CommandLineInterface.waitForUserToContinue("There are no saved terminals at the moment. You will be brought back to the main menu.");
+            return;
+        }
+
+        // ask user for terminal-id
+        int terminalIdToEdit = CommandLineInterface.askAndGetInt("Please specify the id of the terminal that you would like to edit:\n");
+        Terminal oldTerminal = TerminalHandler.getTerminalById(terminalIdToEdit);
+
+        System.out.print("Please enter the new terminal attributes - the validity of your change will be tested at the end:\n");
+        Terminal newTerminal = getTerminalObjectFromUser();
+
+        // is terminal in use?
+        // boolean isInUse = TerminalHandler.hasAnySubscriberTerminalWithId(terminalIdToEdit); // -> not important, because not necessary to validate that there's no downgrade (eg with has4G?) in terminal
+
+        // test that there is no other subscription with the new name
+        if ( !oldTerminal.getName().equals( newTerminal.getName() )  &&  TerminalHandler.getTerminals().stream().anyMatch(  e -> e.getName().equals( newTerminal.getName() ) )  ) {
+            CommandLineInterface.waitForUserToContinue("Terminal couldn't be changed, because another terminal already has the same name (and for clarity reasons every subscription should have a different name).");
+            return;
+        }
+
+
+        TerminalHandler.editTerminal(newTerminal);
+        TerminalHandler.save();
+        CommandLineInterface.waitForUserToContinue("The changes were valid and have been saved.");
 
     }
 
@@ -422,7 +511,7 @@ public class UserInteraction {
             return;
         }
 
-        CommandLineInterface.waitForUserToContinue( SubscriberHandler.getSubscribers().toString() );
+        CommandLineInterface.waitForUserToContinue( SubscriberHandler.getSubscribers().stream().map(  el -> el.toString()  ).collect( Collectors.joining("\n")  ) );
     }
 
     private static void process_listSubscriptions() {
@@ -442,7 +531,7 @@ public class UserInteraction {
             return;
         }
 
-        CommandLineInterface.waitForUserToContinue( TerminalHandler.getTerminals().toString() );
+        CommandLineInterface.waitForUserToContinue( TerminalHandler.getTerminals().stream().map(  el -> el.toString()  ).collect( Collectors.joining("\n")  ) );
     }
 
     private static void process_listCharges() {
@@ -457,7 +546,7 @@ public class UserInteraction {
             return;
         }
 
-        CommandLineInterface.waitForUserToContinue( SubscriberHandler.getSubscriberById(subscriberId).getCharges().toString() );
+        CommandLineInterface.waitForUserToContinue( SubscriberHandler.getSubscriberById(subscriberId).getCharges().stream().map(  el -> el.toString()  ).collect( Collectors.joining("\n")  ) );
 
     }
 

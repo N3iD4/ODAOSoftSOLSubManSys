@@ -14,14 +14,14 @@ public class SessionFunctionality {
 
     private static String[] serviceNames = new String[] { "Voice Call", "Browsing and social networking", "App download", "Adaptive HD video" };
     private static String[] serviceTypes = new String[] { "voice", "data", "data", "data" };
-    private static int[] serviceRateInMbPerS = new int[] { 0, 2, 10, 100 };
+    private static BigDecimal[] serviceRateInMbPerS = new BigDecimal[] { new BigDecimal(0), new BigDecimal(2), new BigDecimal(10), new BigDecimal(100) };
 
 
     protected static void process_createSession() {
         // Needed: user, service, time
 
         // Ask for userId
-        int userId = CommandLineInterface.askAndGetInt("Which user should open a session?");
+        int userId = CommandLineInterface.askAndGetInt("Which user should open a session?\n");
         // Check if valid userId
         boolean isValidId = SubscriberHandler.checkID(userId);
         if (!isValidId) {
@@ -32,10 +32,10 @@ public class SessionFunctionality {
 
 
         // Ask for service type
-        int serviceTypeIndex = CommandLineInterface.letUserChooseMenuItem("Which service should be started?", serviceNames);
+        int serviceTypeIndex = CommandLineInterface.letUserChooseMenuItem("Which service should be started?\n", serviceNames);
 
         // Ask for time
-        int timeInS = CommandLineInterface.askAndGetInt("How long should the session be?");
+        int timeInS = CommandLineInterface.askAndGetInt("How long should the session be (in SECONDS)?\n");
 
         if ( serviceTypes[serviceTypeIndex].equals("voice") ) {
             doVoiceSession(subscriber, serviceTypeIndex, timeInS);
@@ -52,7 +52,7 @@ public class SessionFunctionality {
 
         // Calculate nr of free minutes after call and costs for minutes bigger than the free minutes
         int freeMinutesBeforeCall = subscriber.getFreeMinutesLeft();
-        int freeMinutesAfterCall = freeMinutesBeforeCall - (int) Math.ceil(timeInS / 60);
+        int freeMinutesAfterCall = freeMinutesBeforeCall - (int) Math.ceil(timeInS / 60.);
         int usedPaidMinutes = 0;
         if (freeMinutesAfterCall < 0) {
             costs = costs.add(  BigDecimal.valueOf(  -freeMinutesAfterCall  ).multiply(  subscriber.getSubscription().getPricePerExtraMinute()  )   );
@@ -66,6 +66,7 @@ public class SessionFunctionality {
         subscriber.addCharge(newCharge);
 
         subscriber.setFreeMinutesLeft(freeMinutesAfterCall);
+        SubscriberHandler.save();
 
         System.out.println( "The following charge was created" );
         CommandLineInterface.waitForUserToContinue( newCharge.toString() );
@@ -82,7 +83,7 @@ public class SessionFunctionality {
         // Calculate usedDataRate (achievable or required by service, whatever is lower)
         BigDecimal maxThroughPut = subscriber.getMaxThroughput();
         BigDecimal achievableDataRate = maxThroughPut.multiply( throughPutPercent[signalStrengthIndex] );
-        BigDecimal usedDataRateInMbitPerS = maxThroughPut.min(achievableDataRate);
+        BigDecimal usedDataRateInMbitPerS = serviceRateInMbPerS[serviceTypeIndex].min(achievableDataRate);
 
         // Calculate required volume
         int requiredVolume = floor(usedDataRateInMbitPerS.multiply( BigDecimal.valueOf(timeInS) ));
@@ -94,17 +95,17 @@ public class SessionFunctionality {
         if ( newUserVolume >= 0 ) {
             subscriber.setDataVolumeLeft( newUserVolume );
             // addcharge
-            ChargeDTO newCharge = new ChargeDTO(newUserVolume - oldUserVolume,0, 0, BigDecimal.valueOf(0) );
+            ChargeDTO newCharge = new ChargeDTO(oldUserVolume - newUserVolume,0, 0, BigDecimal.valueOf(0) );
             subscriber.addCharge( newCharge );
-            // TODO: save?
-            CommandLineInterface.waitForUserToContinue( String.format("The user used %s for %d seconds with %d network quality. This was still covered by his data volume and lead to %dMb used.\nThe user's data volume changed from %dMb to %dMb.", serviceNames[serviceTypeIndex], timeInS, throughPutNames[signalStrengthIndex], requiredVolume, oldUserVolume, newUserVolume));
+            SubscriberHandler.save();
+            CommandLineInterface.waitForUserToContinue( String.format("The user used %s for %d seconds with %s network quality. This was still covered by his data volume and lead to %dMb used.\nThe user's data volume changed from %dMb to %dMb.", serviceNames[serviceTypeIndex], timeInS, throughPutNames[signalStrengthIndex], requiredVolume, oldUserVolume, newUserVolume));
         } else {
             subscriber.setDataVolumeLeft( 0 );
             // addcharge
             ChargeDTO newCharge = new ChargeDTO( oldUserVolume,0, 0, BigDecimal.valueOf(0) ); // nur für restliche Daten, also für oldUserVolume, berechnen !
             subscriber.addCharge( newCharge );
-            // TODO: save?
-            CommandLineInterface.waitForUserToContinue( String.format("The user wanted to use %s for %d seconds with %d network quality. This was not covered by their data volume. Instead, %dMb were used.\nThe user's data volume changed from %dMb to %dMb.", serviceNames[serviceTypeIndex], timeInS, throughPutNames[signalStrengthIndex], oldUserVolume, oldUserVolume, 0));
+            SubscriberHandler.save();
+            CommandLineInterface.waitForUserToContinue( String.format("The user wanted to use %s for %d seconds with %s network quality. This was not covered by their data volume. Instead, %dMb were used.\nThe user's data volume changed from %dMb to %dMb.", serviceNames[serviceTypeIndex], timeInS, throughPutNames[signalStrengthIndex], oldUserVolume, oldUserVolume, 0));
         }
 
     }

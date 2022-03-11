@@ -156,7 +156,7 @@ public class CommandLineInterface {
 
                 userInputInt = new BigDecimal(userInputString);
 
-                if (userInputString.split(".").length > 1 && userInputString.split(".")[1].length() > 2) {
+                if (userInputString.split("\\.").length > 1 && userInputString.split("\\.")[1].length() > 2) {
                     throw new IllegalArgumentException("Only a maximum of 2 decimal placed is allowed");
                 }
 

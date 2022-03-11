@@ -41,6 +41,8 @@ public class ChargeDTO {
         this.appliedCharges = appliedCharges;
     }
 
+    private ChargeDTO() { /* default constructor necessary for Jackson */ }
+
     public ChargeDTO(int totalVolumeOfUsedData, int totalFreeVoiceMinutes, int totalPaidVoiceMinutes, BigDecimal appliedCharges) {
         setTotalVolumeOfUsedData(totalVolumeOfUsedData);
         setTotalFreeVoiceMinutes(totalFreeVoiceMinutes);
@@ -50,11 +52,6 @@ public class ChargeDTO {
 
     @Override
     public String toString() {
-        return "ChargeDTO{" +
-                "totalVolumeOfUsedData=" + totalVolumeOfUsedData +
-                ", totalFreeVoiceMinutes=" + totalFreeVoiceMinutes +
-                ", totalPaidVoiceMinutes=" + totalPaidVoiceMinutes +
-                ", appliedCharges=" + appliedCharges +
-                '}';
+        return "data: " + totalVolumeOfUsedData + "Mb, free voice minutes: " + totalFreeVoiceMinutes + "min, paid voice minutes: " + totalPaidVoiceMinutes + "min, cost: " + appliedCharges + "€";
     }
 }
