@@ -18,7 +18,7 @@ public class SessionFunctionality {
 
     protected static void process_createSession() {
         // Needed: user, service, time
-
+/*
         // Ask for userId
         int userId = CommandLineInterface.askAndGetInt("Which user should open a session?");
         // Check if valid userId
@@ -41,7 +41,7 @@ public class SessionFunctionality {
         } else {
             doDataSession(subscriber, serviceTypeIndex, timeInS);
         }
-
+*/
     }
 
 
