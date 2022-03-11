@@ -227,8 +227,17 @@ public class UserInteraction {
             return;
         }
 
+
         // ask user for subscription-id
         int subscriptionIdToRemove = CommandLineInterface.askAndGetInt("Please specify the subscription id to be removed:\n");
+
+
+        // exit if users are currently subscribed to this subscription
+        if (  SubscriberHandler.hasAnySubscriberSubscriptionWithId(subscriptionIdToRemove)  ) {
+            CommandLineInterface.waitForUserToContinue("The specified subscription has active subscribers. Because of this, it cannot be removed. You will be brought back to the main menu.");
+            return;
+        }
+
 
         // Try to remove subscriber with entered id
         boolean success = true;
@@ -348,6 +357,32 @@ public class UserInteraction {
 
     private static void process_editTerminal() {
 
+    }
+
+
+    private static Terminal getTerminalObjectFromUser() {
+
+        Terminal resTerminal = new Terminal();
+
+        // name
+        boolean validResponse = false;
+        while (!validResponse) {
+            String userResponse = CommandLineInterface.askAndGetString("Terminal name: ");
+            validResponse = !TerminalHandler.getTerminals().stream().anyMatch( e -> e.getName().equals(userResponse) );
+            if (!validResponse) {
+                System.out.println("A terminal with this name already exists. Please choose another name for clarity.");
+            } else {
+                resTerminal.setName(userResponse);
+            }
+        }
+
+        int userAnswer = CommandLineInterface.letUserChooseMenuItem(new String[] {"terminal supports 4G", "terminal does not support 4G"} );
+        resTerminal.setSupports4G( userAnswer == 0 ? true : false );
+
+        userAnswer = CommandLineInterface.letUserChooseMenuItem(new String[] {"make terminal active", "make terminal inactive"} );
+        resTerminal.setIsActive( userAnswer == 0 ? true : false );
+
+        return resTerminal;
     }
 
 
