@@ -39,7 +39,7 @@ public class SubscriberHandler {
     public static void editSub(Subscriber sub) throws RuntimeException {
         try {
             deleteSub(sub);
-            addSubscriber(sub);
+            addSubscriber(sub); // FIXME: I think this does not work, because the edited subscriber should still have the same id, but addSubscriber always assigns new ids
         } catch (RuntimeException e) {
             throw e;
         }

@@ -312,7 +312,7 @@ public class UserInteraction {
 
         // The changes were valid
         // create invoice to pay off old costs and start clean into new subscription
-        Subscriber[] affectedSubscribers = (Subscriber[]) SubscriberHandler.getSubscribers().stream().filter(  el -> el.getSubscriptionId() == subscriptionIdToEdit  ).toArray(); // TODO: ERROR
+        Subscriber[] affectedSubscribers = (Subscriber[]) SubscriberHandler.getSubscribers().stream().filter(  el -> el.getSubscriptionId() == subscriptionIdToEdit  ).toArray(Subscriber[]::new);
         String invoiceTexts = "There were " + affectedSubscribers.length + " subscribers affected by this change.";
 
         if (affectedSubscribers.length != 0) {
