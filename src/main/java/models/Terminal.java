@@ -53,5 +53,12 @@ public class Terminal {
     }
 
 
+    @Override
+    public String toString() {
+        return "id: " + id +
+                "| name: " + name +
+                "| supports4G: " + supports4G +
+                "| isActive: " + isActive;
+    }
 }
 

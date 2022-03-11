@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 
 public class Subscription {
 
-    //TODO tostring
-
     int id;
     String name;
     BigDecimal basicFee;

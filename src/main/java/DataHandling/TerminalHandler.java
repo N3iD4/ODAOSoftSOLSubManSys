@@ -15,7 +15,7 @@ public class TerminalHandler {
     public static void addTerminal(Terminal terminal) throws IllegalArgumentException{
         try {
             getIndexWithID(terminal);
-            throw new IllegalArgumentException("Terminal with IMSI=" + terminal.getId() + " is already stored");
+            throw new IllegalArgumentException("Terminal with ID=" + terminal.getId() + " is already stored");
         } catch (IllegalArgumentException e) {}
         if(terminals.size()!=0)
             terminal.setId(TerminalHandler.terminals.get(terminals.size()-1).getId()+1);
@@ -24,7 +24,7 @@ public class TerminalHandler {
         terminals.add(terminal);
     }
 
-    public static void deleteSub (Terminal terminal) throws IllegalArgumentException {
+    public static void deleteTerminal (Terminal terminal) throws IllegalArgumentException {
         int index = -1;
         try {
             index = getIndexWithID(terminal);
@@ -35,19 +35,14 @@ public class TerminalHandler {
             TerminalHandler.terminals.remove(index);
     }
 
-    // removes and adds Terminal related to IMSI
-    public static void editSub(Terminal terminal) {
+    // removes and adds Terminal related to ID
+    public static void editTerminal(Terminal terminal) {
         try {
-            deleteSub(terminal);
+            deleteTerminal(terminal);
             addTerminal(terminal);
         } catch (IllegalArgumentException e) {
             throw e;
         }
-    }
-
-    // gives Terminal Obj realted to IMSI
-    public static Terminal getTerminalByIMSI(int id) throws IllegalArgumentException{
-        return TerminalHandler.terminals.get(getIndexWithID(id));
     }
 
     //gives List of all stored Terminals

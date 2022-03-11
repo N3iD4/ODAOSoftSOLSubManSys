@@ -3,6 +3,7 @@ package models;
 import DataHandling.JsonSave;
 import DataHandling.SubscriberHandler;
 import DataHandling.SubscriptionHandler;
+import DataHandling.TerminalHandler;
 
 import java.math.BigDecimal;
 
@@ -10,8 +11,9 @@ public class Testing {
 
     public static void main (String[] args){
 
-        //TestSubscriberHandler();
+        TestSubscriberHandler();
         TestSubscriptionsHandler();
+        TestTerminalHandler();
 
         /*Subscriber subscriber = new Subscriber();
         //subscriber.setForename("kgaz43o78"); // no
@@ -90,6 +92,34 @@ public class Testing {
         SubscriptionHandler.addSubscription(sub2);
         System.out.println("0==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub1)).getId());
         System.out.println("3==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub2)).getId());
+
+        System.out.println("=========================================================================");
+    }
+
+    public static void TestTerminalHandler() {
+        System.out.println("=============================Terminals============================");
+
+        Terminal term1 = new Terminal("Funkmast",true);
+        Terminal term2 = new Terminal("Antenne",false);
+        Terminal term3 = new Terminal("Dosentelefon",true);
+
+        String tmp ="TerminalHandler{terminals=[id: 0| name: Funkmast| supports4G: true| isActive: false, id: 1| name: Antenne| supports4G: false| isActive: false, id: 2| name: Dosentelefon| supports4G: true| isActive: false]}";
+
+        TerminalHandler.addTerminal(term1);
+        TerminalHandler.addTerminal(term2);
+        TerminalHandler.addTerminal(term3);
+
+        JsonSave.saveDataSubscriptions();
+        JsonSave.laodDataSubscriptions();
+        System.out.println(TerminalHandler.ToString());
+        System.out.println("true==" + TerminalHandler.ToString().equals(tmp));
+        System.out.println("3==" + TerminalHandler.terminals.size());
+
+        TerminalHandler.deleteTerminal(term2);
+        System.out.println("2==" + TerminalHandler.terminals.size());
+        TerminalHandler.addTerminal(term2);
+        System.out.println("0==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term1)).getId());
+        System.out.println("3==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term2)).getId());
 
         System.out.println("=========================================================================");
     }
