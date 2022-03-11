@@ -1,5 +1,6 @@
 package DataHandling;
 
+import models.Subscription;
 import models.Terminal;
 
 import java.util.ArrayList;
@@ -75,9 +76,14 @@ public class TerminalHandler {
     }
 
     public static Terminal getTerminalById(int id) throws IllegalArgumentException {
-      if(checkID(id))
-          return terminals.get(id);
-      throw new IllegalArgumentException("Terminal don't found");
+        if(checkID(id)) {
+            Object[] tempar = terminals.toArray();
+            for (int i = 0; i < tempar.length; i++) {
+                if (((Terminal) tempar[i]).getId() == id)
+                    return terminals.get(i);
+            }
+        }
+        throw new IllegalArgumentException("Terminal don't found");
     }
 
     public static boolean checkID(int id) {
@@ -87,6 +93,14 @@ public class TerminalHandler {
                 return true;
         }
         return false;
+    }
+
+    public static void save() {
+        JsonSave.saveDataTerminals();
+    }
+
+    public static void load() {
+        JsonSave.laodDataTerminals();
     }
 
 }

@@ -53,8 +53,8 @@ public class Testing {
         SubscriberHandler.addSubscriber(sub2);
         SubscriberHandler.addSubscriber(sub3);
 
-        JsonSave.saveDataSubscribers();
-        JsonSave.laodDataSubscriber();
+        SubscriberHandler.save();
+        SubscriberHandler.load();
         System.out.println(SubscriberHandler.ToString());
         System.out.println("true==" + SubscriberHandler.ToString().equals(tmp));
         System.out.println("3==" + SubscriberHandler.subscribers.size());
@@ -63,7 +63,12 @@ public class Testing {
         System.out.println("2==" + SubscriberHandler.subscribers.size());
         SubscriberHandler.addSubscriber(sub2);
         System.out.println("0==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub1)).getId());
-        System.out.println("3==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub2)).getId());
+        System.out.println("2==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub2)).getId());
+
+        sub2.setSurname("FranzPetergeaendert");
+        SubscriberHandler.editSub(sub2);
+        System.out.println("false==" + SubscriberHandler.getSubscriberById(sub2.getId()).getSurname().equals("meier"));
+        System.out.println(SubscriberHandler.getSubscriberById(sub2.getId()));
 
         System.out.println("=========================================================================");
     }
@@ -81,8 +86,9 @@ public class Testing {
         SubscriptionHandler.addSubscription(sub2);
         SubscriptionHandler.addSubscription(sub3);
 
-        JsonSave.saveDataSubscriptions();
-        JsonSave.laodDataSubscriptions();
+        SubscriptionHandler.save();
+        SubscriptionHandler.load();
+
         System.out.println(SubscriptionHandler.ToString());
         System.out.println("true==" + SubscriptionHandler.ToString().equals(tmp));
         System.out.println("3==" + SubscriptionHandler.subscriptions.size());
@@ -91,7 +97,12 @@ public class Testing {
         System.out.println("2==" + SubscriptionHandler.subscriptions.size());
         SubscriptionHandler.addSubscription(sub2);
         System.out.println("0==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub1)).getId());
-        System.out.println("3==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub2)).getId());
+        System.out.println("2==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub2)).getId());
+
+        sub2.setName("FranzPetergeaendert");
+        SubscriptionHandler.editSub(sub2);
+        System.out.println("false==" + SubscriptionHandler.getSubscriptionById(sub2.getId()).getName().equals("mainTarif"));
+        System.out.println(SubscriptionHandler.getSubscriptionById(sub2.getId()));
 
         System.out.println("=========================================================================");
     }
@@ -109,8 +120,9 @@ public class Testing {
         TerminalHandler.addTerminal(term2);
         TerminalHandler.addTerminal(term3);
 
-        JsonSave.saveDataSubscriptions();
-        JsonSave.laodDataSubscriptions();
+        TerminalHandler.save();
+        TerminalHandler.load();
+
         System.out.println(TerminalHandler.ToString());
         System.out.println("true==" + TerminalHandler.ToString().equals(tmp));
         System.out.println("3==" + TerminalHandler.terminals.size());
@@ -119,7 +131,12 @@ public class Testing {
         System.out.println("2==" + TerminalHandler.terminals.size());
         TerminalHandler.addTerminal(term2);
         System.out.println("0==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term1)).getId());
-        System.out.println("3==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term2)).getId());
+        System.out.println("2==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term2)).getId());
+
+        term2.setName("FranzPetergeaendert");
+        TerminalHandler.editTerminal(term2);
+        System.out.println("false==" + TerminalHandler.getTerminalById(term2.getId()).getName().equals("mainTarif"));
+        System.out.println(TerminalHandler.getTerminalById(term2.getId()));
 
         System.out.println("=========================================================================");
     }
