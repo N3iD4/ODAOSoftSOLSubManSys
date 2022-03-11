@@ -3,17 +3,20 @@ package DataHandling;
 import models.Subscription;
 import models.Terminal;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class TerminalHandler {
 
-    public static List<Terminal> terminals = Arrays.asList(
-            new Terminal(0, "PhairPhone", false, true),
-            new Terminal(1, "Pear aphone 4s", false, true),
-            new Terminal(2, "Samsung S42plus", true, true)
-    );
+    public static List<Terminal> terminals = new ArrayList<>();
+
+    public static void init() {
+        terminals.add( new Terminal(0, "PhairPhone", false, true) );
+        terminals.add( new Terminal(1, "Pear aphone 4s", false, true) );
+        terminals.add( new Terminal(2, "Samsung S42plus", true, true) );
+    }
 
 
     private TerminalHandler() {
