@@ -63,7 +63,7 @@ public class Testing {
         System.out.println("2==" + SubscriberHandler.subscribers.size());
         SubscriberHandler.addSubscriber(sub2);
         System.out.println("0==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub1)).getId());
-        System.out.println("3==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub2)).getId());
+        System.out.println("2==" + SubscriberHandler.getSubscriberById(SubscriberHandler.getIndexWithIMSI(sub2)).getId());
 
         sub2.setSurname("FranzPetergeaendert");
         SubscriberHandler.editSub(sub2);
@@ -97,7 +97,7 @@ public class Testing {
         System.out.println("2==" + SubscriptionHandler.subscriptions.size());
         SubscriptionHandler.addSubscription(sub2);
         System.out.println("0==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub1)).getId());
-        System.out.println("3==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub2)).getId());
+        System.out.println("2==" + SubscriptionHandler.getSubscriptionById(SubscriptionHandler.getIndexWithID(sub2)).getId());
 
         sub2.setName("FranzPetergeaendert");
         SubscriptionHandler.editSub(sub2);
@@ -131,7 +131,7 @@ public class Testing {
         System.out.println("2==" + TerminalHandler.terminals.size());
         TerminalHandler.addTerminal(term2);
         System.out.println("0==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term1)).getId());
-        System.out.println("3==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term2)).getId());
+        System.out.println("2==" + TerminalHandler.getTerminalById(TerminalHandler.getIndexWithID(term2)).getId());
 
         term2.setName("FranzPetergeaendert");
         TerminalHandler.editTerminal(term2);
