@@ -12,10 +12,10 @@ public class SubscriberHandler {
     private SubscriberHandler() {
     }
 
-    public static void addSubscriber(Subscriber sub) throws IllegalArgumentException{
+    public static void addSubscriber(Subscriber sub) throws IllegalArgumentException,RuntimeException{
         try {
             getIndexWithIMSI(sub);
-            throw new IllegalArgumentException("Subscriber with IMSI=" + sub.getIMSI() + " is already stored");
+            throw new RuntimeException("Subscriber with IMSI=" + sub.getIMSI() + " is already stored");
         } catch (IllegalArgumentException e) {}
         if(subscribers.size()!=0)
             sub.setId(SubscriberHandler.subscribers.get(subscribers.size()-1).getId()+1);
@@ -36,11 +36,11 @@ public class SubscriberHandler {
     }
 
     // removes and adds Subscriber related to IMSI
-    public static void editSub(Subscriber sub) {
+    public static void editSub(Subscriber sub) throws RuntimeException {
         try {
             deleteSub(sub);
             addSubscriber(sub);
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             throw e;
         }
     }
