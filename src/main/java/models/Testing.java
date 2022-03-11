@@ -11,6 +11,9 @@ public class Testing {
 
     public static void main (String[] args){
 
+        SubscriptionHandler.init();
+        TerminalHandler.init();
+
         TestSubscriberHandler();
         TestSubscriptionsHandler();
         TestTerminalHandler();

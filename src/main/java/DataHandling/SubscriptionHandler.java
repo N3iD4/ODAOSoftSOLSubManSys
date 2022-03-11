@@ -11,11 +11,15 @@ import java.util.List;
 
 public class SubscriptionHandler {
 
-    public static List<Subscription> subscriptions = Arrays.asList(
-            new Subscription(0, "GreenMobil S", new BigDecimal(8), 0, new BigDecimal("0.08"), 500, true),
-            new Subscription(1, "GreenMobil M", new BigDecimal(22), 100, new BigDecimal("0.06"), 2000, true),
-            new Subscription(2, "GreenMobil L", new BigDecimal(42), 150, new BigDecimal("0.04"), 5000, true)
-    );
+    public static List<Subscription> subscriptions = new ArrayList<>();
+
+    public static void init() {
+        subscriptions.add( new Subscription(0, "GreenMobil S", new BigDecimal(8), 0, new BigDecimal("0.08"), 500, true) );
+        subscriptions.add( new Subscription(1, "GreenMobil M", new BigDecimal(22), 100, new BigDecimal("0.06"), 2000, true) );
+        subscriptions.add( new Subscription(2, "GreenMobil L", new BigDecimal(42), 150, new BigDecimal("0.04"), 5000, true) );
+    }
+
+
 
     private SubscriptionHandler() {
     }
